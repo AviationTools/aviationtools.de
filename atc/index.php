@@ -3,7 +3,8 @@
     $title = 'ATC Comms';
     include '../assets/layout/header.php'; ?>
 
-<script defer src="/assets/js/atc.js"></script>
+<script defer src="atc.js"></script>
+
 <div class="row">
     <!-- ICAO Box -->
     <div class="col-md-7">
@@ -207,5 +208,6 @@
 </div>
 
 <div id="snackbar"></div>
+
 <?php
     include '../assets/layout/footer.php'; ?>

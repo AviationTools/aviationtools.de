@@ -3,7 +3,7 @@
     $title = 'METAR Decoder';
     include '../assets/layout/header.php'; ?>
 
-<script src="/assets/js/metar.js"></script>
+<script src="metar.js"></script>
 
 <div class="row">
     <div class="col-md-7">

@@ -13,8 +13,8 @@
 <link rel='stylesheet'
       href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css'
       type='text/css' />
-<script defer src="/assets/offline/l.ellipse.min.js"></script>
-<script defer src="/assets/js/sidstar.js"></script>
+<script defer src="../assets/offline/l.ellipse.min.js"></script>
+<script defer src="sidstar.js"></script>
 
 <div class="row">
     <div class="col-md-7">

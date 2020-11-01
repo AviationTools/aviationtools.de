@@ -11,9 +11,11 @@
         crossorigin=""></script>
 <script defer src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+
 <script defer src="../assets/offline/l.ellipse.min.js"></script>
 <script defer src="../assets/offline/fuse.min.js"></script>
-<script defer src="/assets/js/notams.js"></script>
+
+<script defer src="notams.js"></script>
 
 <style>
     #Suffix:hover, #Start:hover, #End:hover, #Number:hover {

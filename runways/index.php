@@ -16,6 +16,7 @@
     };
     firebase.initializeApp(config);
 </script>
+<script defer src="/runways/runways.js"></script>
 
 <div class="row">
     <div class="col-md-7">
@@ -172,8 +173,8 @@
         </div>
     </div>
 </div>
+
 <div id="snackbar"></div>
-<script src="/assets/js/runways.js"></script>
 
 <?php
     include '../assets/layout/footer.php'; ?>

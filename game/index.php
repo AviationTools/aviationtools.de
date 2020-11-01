@@ -19,7 +19,7 @@
     };
     firebase.initializeApp(config);
 </script>
-<script defer src="/assets/js/game.js"></script>
+<script defer src="game.js"></script>
 
 <div class="row">
     <div class="col">
