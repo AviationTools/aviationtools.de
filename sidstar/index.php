@@ -13,7 +13,8 @@
 <link rel='stylesheet'
       href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css'
       type='text/css' />
-<script defer src="../assets/offline/l.ellipse.min.js"></script>
+<script defer src="/assets/offline/l.ellipse.min.js"></script>
+<script defer src="/assets/js/sidstar.js"></script>
 
 <div class="row">
     <div class="col-md-7">
@@ -87,11 +88,11 @@
                 <div class="float-right" id="output" style="display:none;">
                     <table class="table table-dark table-hover table-responsive-xl">
                         <thead>
-                        <tr>
-                            <th>Runway</th>
-                            <th>Length(meters)</th>
-                            <th>Selection</th>
-                        </tr>
+                            <tr>
+                                <th>Runway</th>
+                                <th>Length(meters)</th>
+                                <th>Selection</th>
+                            </tr>
                         </thead>
                         <tbody id="runwayTable"></tbody>
                     </table>
@@ -103,7 +104,7 @@
             <table class="table table-responsive-xl">
                 <!-- class="table table-striped table-hover table-responsive-xl" -->
                 <thead>
-                <tr id="tableConfig"></tr>
+                    <tr id="tableConfig"></tr>
                 </thead>
                 <tbody id="SidOutput"></tbody>
             </table>
@@ -113,7 +114,7 @@
         <div class="row">
             <!-- class="row sticky-top" style="top: 4.5em;" -->
             <div class="card">
-                <h3 class="card-header"><i class="fas fa-map-marked-alt"></i> &nbsp;Map</h3>
+                <h3 class="card-header"><i class="fas fa-map-marked-alt"></i>&nbsp;Map</h3>
                 <ul class="nav nav-tabs nav-justified">
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="help">Help</a>
@@ -240,7 +241,7 @@
         </div>
     </div>
     <div id="snackbar"></div>
-    <script defer src="/assets/js/sidstar.js"></script>
+
     <?php
         include '../assets/layout/footer.php'; ?>
 

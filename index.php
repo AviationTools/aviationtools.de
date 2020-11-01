@@ -1,16 +1,13 @@
 <?php
-$page = 'home';
-$title = 'ATC-Com';
-include 'assets/layout/header.php';
-?>
+    $page = 'home';
+    $title = 'ATC-Com';
+    include 'assets/layout/header.php'; ?>
 <script defer src="/assets/js/index.js"></script>
 
 <div class="text-center">
-
     <h1 class="display-3">ATC-Com</h1>
 
     <div class="jumbotron my-4 mx-auto w-75">
-
         <h1>What do you want to do?</h1>
 
         <ul class="list-inline">
@@ -44,7 +41,6 @@ include 'assets/layout/header.php';
             </a></li>
 
         </ul>
-
     </div>
 
     <div class="container-fluid mb-2">
@@ -98,11 +94,12 @@ include 'assets/layout/header.php';
             </div>
         </div>
     </div>
-
 </div>
 
 <h3>Credits</h3>
 <p class="lead">Thanks to Calum Shepherd for the frontend development and <a href="https://superananas.de/">
         Superananas</a> for programming help.</p>
 <div id="snackbar"></div>
-<?php include 'assets/layout/footer.php'; ?>
+
+<?php
+    include 'assets/layout/footer.php'; ?>

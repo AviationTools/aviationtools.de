@@ -1,9 +1,13 @@
-<?php 
-$file = fopen("likes.txt", "r") or die("Unable to open file!");
-print(fgets($file));
+<?php
 
+function getLikeCount() {
+    $filereader = fopen("likes.txt", "r");
+    $likes = fgets($filereader);
 
+    return (int)$likes;
+}
 
+http_response_code(200);
+echo(getLikeCount());
 
- ?>
-
+?>
