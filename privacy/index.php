@@ -1,21 +1,18 @@
 <?php
-$page  = 'privacy';
-$title = 'Privacy Policy';
-include '../assets/layout/header.php';
+    $page = 'privacy';
+    $title = 'Privacy Policy';
+    include '../assets/layout/header.php';
 ?>
 
 <h1>Privacy Policy</h1>
 
-
 <p>Effective date: July 14, 2018</p>
-
 
 <p>ATC-Com ("us", "we", or "our") operates the http://atccom.de website (the "Service").</p>
 
-<p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. This Privacy Policy  for ATC-Com is powered by <a href="https://privacypolicies.com/free-privacy-policy-generator/">PrivacyPolicies.com</a>.</p>
+<p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. This Privacy Policy for ATC-Com is powered by <a href="https://privacypolicies.com/free-privacy-policy-generator/">PrivacyPolicies.com</a>.</p>
 
 <p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from http://atccom.de</p>
-
 
 <h2>Information Collection And Use</h2>
 
@@ -28,7 +25,7 @@ include '../assets/layout/header.php';
 <p>While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you ("Personal Data"). Personally identifiable information may include, but is not limited to:</p>
 
 <ul>
-<li>Cookies and Usage Data</li>
+    <li>Cookies and Usage Data</li>
 </ul>
 
 <h4>Usage Data</h4>
@@ -47,8 +44,8 @@ include '../assets/layout/header.php';
 </ul>
 
 <h2>Use of Data</h2>
-    
-<p>ATC-Com uses the collected data for various purposes:</p>    
+
+<p>ATC-Com uses the collected data for various purposes:</p>
 <ul>
     <li>To provide and maintain the Service</li>
     <li>To notify you about changes to our Service</li>
@@ -85,39 +82,35 @@ include '../assets/layout/header.php';
 <p>These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.</p>
 
 <h3>Analytics</h3>
-<p>We may use third-party Service Providers to monitor and analyze the use of our Service.</p>    
+<p>We may use third-party Service Providers to monitor and analyze the use of our Service.</p>
 <ul>
-        <li>
+    <li>
         <p><strong>Google Analytics</strong></p>
         <p>Google Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network.</p>
-        <p>You can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity.</p>                <p>For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: <a href="https://policies.google.com/privacy?hl=en">https://policies.google.com/privacy?hl=en</a></p>
+        <p>You can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity.</p>
+        <p>For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: <a href="https://policies.google.com/privacy?hl=en">https://policies.google.com/privacy?hl=en</a></p>
     </li>
-                            </ul>
-
+</ul>
 
 <h2>Links To Other Sites</h2>
 <p>Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
 <p>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.</p>
 
-
 <h2>Children's Privacy</h2>
 <p>Our Service does not address anyone under the age of 18 ("Children").</p>
 <p>We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers.</p>
-
 
 <h2>Changes To This Privacy Policy</h2>
 <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
 <p>We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the "effective date" at the top of this Privacy Policy.</p>
 <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
 
-
 <h2>Contact Us</h2>
 <p>If you have any questions about this Privacy Policy, please contact us:</p>
 <ul>
-        <li>By email: werbungbnc@web.de</li>
-          
-        </ul>                                
+    <li>By email: werbungbnc@web.de</li>
+</ul>
 
 <?php
-include '../assets/layout/footer.php';
+    include '../assets/layout/footer.php';
 ?>

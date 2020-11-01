@@ -1,3 +1,0 @@
-$2y$10$.PQfs1nCPQWriSnT4XFd3O.doFKSlH2wz3FA1aD8PIghbQVuT1BsW,michel@aol.com,0,u
-$2y$10$7YpWtIXon2MFhJ9UcMFWSOqfN8oiy3kUsfWsKdLajZYc9Wo9sHjPy,test@aol.com,1,
-$2y$10$BVsLrLlD47l9cG3IOTim7u2EVm4yDLfy/Z9bUIqMukVth6rLGEf4y,nralbrecht@web.de,1,b$2y$10$uVsS70MflUQ2/Kr.iyvcne3.W3DHX2OQmPcYaNBTZzOUF3rpP6rhS,flya.zlm@gmx.de,0,u
