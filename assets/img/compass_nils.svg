@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 26.458333 26.458333"
+   version="1.1"
+   id="svg4598"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="compass_nils.svg">
+  <defs
+     id="defs4592" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4"
+     inkscape:cx="79.409572"
+     inkscape:cy="26.289864"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     width="9.5in"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-page="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-others="true"
+     inkscape:snap-global="false"
+     inkscape:snap-grids="true"
+     inkscape:object-nodes="true"
+     showguides="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1072"
+     inkscape:window-y="535"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       position="0,0"
+       orientation="0,100"
+       id="guide5280"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26.458333,0"
+       orientation="-100,0"
+       id="guide5282"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26.458333,26.458333"
+       orientation="0,-100"
+       id="guide5284"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,26.458333"
+       orientation="100,0"
+       id="guide5286"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4595">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-270.54167)">
+    <path
+       style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.17777452;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 13.229165,275.05092 h 1.900106 l -1.900106,-1.72773 -1.900103,1.72773 z"
+       id="path5149"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.25875747;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="path5147"
+       cx="13.229167"
+       cy="283.77084"
+       r="8.7220993" />
+    <g
+       aria-label="N"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.79928684px;line-height:1.25;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2849465"
+       id="text5162">
+      <path
+         d="m 14.070511,272.69263 v -1.88243 h -0.400755 v 1.18252 l -0.872067,-1.18252 h -0.412044 v 1.88243 H 12.7864 v -1.22767 l 0.897467,1.22767 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova Bold';stroke-width:0.2849465"
+         id="path5351" />
+    </g>
+    <g
+       aria-label="E"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.79928684px;line-height:1.25;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2849465"
+       id="text5162-8">
+      <path
+         d="m 25.742852,284.69223 v -0.35278 h -0.931333 v -0.42898 h 0.911578 v -0.35277 h -0.911578 v -0.39511 h 0.931333 v -0.35278 h -1.332088 v 1.88242 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova Bold';stroke-width:0.2849465"
+         id="path5348" />
+    </g>
+    <g
+       aria-label="S"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.79928684px;line-height:1.25;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2849465"
+       id="text5162-2">
+      <path
+         d="m 13.252213,296.79934 c 0.505178,0 0.753533,-0.25965 0.753533,-0.60396 0,-0.70273 -1.080911,-0.50235 -1.080911,-0.79869 0,-0.11288 0.09596,-0.18626 0.265289,-0.18626 0.191911,0 0.395111,0.0649 0.547511,0.20602 l 0.222956,-0.29916 c -0.186267,-0.17215 -0.434622,-0.26246 -0.733778,-0.26246 -0.443089,0 -0.714022,0.25964 -0.714022,0.57291 0,0.70838 1.083733,0.47978 1.083733,0.80715 0,0.11007 -0.104422,0.20885 -0.327378,0.20885 -0.259644,0 -0.465666,-0.11853 -0.598311,-0.25682 l -0.220133,0.31326 c 0.1778,0.1778 0.437444,0.29916 0.801511,0.29916 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova Bold';stroke-width:0.2849465"
+         id="path5342" />
+    </g>
+    <g
+       aria-label="W"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.79928684px;line-height:1.25;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2849465"
+       id="text5162-9">
+      <path
+         d="m 2.0565082,284.71426 0.5362222,-1.88242 H 2.1439971 l -0.3302,1.36031 -0.3556,-1.36031 H 1.1449304 l -0.35842221,1.36031 -0.3302,-1.36031 H 0.00757485 l 0.53904445,1.88242 h 0.42615555 l 0.32737775,-1.29257 0.3302,1.29257 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.82222223px;font-family:'Proxima Nova';-inkscape-font-specification:'Proxima Nova Bold';stroke-width:0.2849465"
+         id="path5345" />
+    </g>
+  </g>
+</svg>
