@@ -1,6 +1,0 @@
-Currently working on the <a href="/metar/">Metar Decoder</a>, feel free to type in the ICAO and get the Metar broken down into sorted Information.'Posted 16:38 UTC, Sun 29 Jul 2018
-Currently working on the <a href="/metar/">Metar Decoder</a>, feel free to type in the ICAO and get the Metar broken down into sorted Information.'Posted Fri, 12 Oct 2018 09:33:20 GMT
-We are working on a "Login" for users who want to  become a Beta Tester. New Tools will be coming up soon. Please feel free to suggest new Ideas. Your AtcCom Team'Posted: Fri, 12 Oct 2018 09:39:28 UTC
-New Tool available now!<br> Sid/Star Guesser will show you the departure & arrival routes at the specific aerodrome<br> <a href="/sidstar/">Sid/Star</a>'Posted 18:45 UTC, Sat 16 March 2019
-Thank you for supporting ATC-COM. A new Tool is beeing developed as we speak, a litle hint "NOTAMS"'Posted: Tue, 28 May 2019 10:21:36 GMT
-Thank you for supporting ATC-COM. A new Tool is being developed as we speak, a little hint "NOTAMS"'Posted: Thu, 27 Jun 2019 12:09:10 GMT

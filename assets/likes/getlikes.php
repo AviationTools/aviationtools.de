@@ -1,13 +1,10 @@
 <?php
+    function getLikeCount() {
+        $fileReader = fopen("likes.txt", "r");
+        $likes = fgets($fileReader);
 
-function getLikeCount() {
-    $filereader = fopen("likes.txt", "r");
-    $likes = fgets($filereader);
+        return (int)$likes;
+    }
 
-    return (int)$likes;
-}
-
-http_response_code(200);
-echo(getLikeCount());
-
-?>
+    http_response_code(200);
+    echo(getLikeCount());

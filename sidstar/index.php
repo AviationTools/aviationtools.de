@@ -88,11 +88,11 @@
                 <div class="float-right" id="output" style="display:none;">
                     <table class="table table-dark table-hover table-responsive-xl">
                         <thead>
-                            <tr>
-                                <th>Runway</th>
-                                <th>Length(meters)</th>
-                                <th>Selection</th>
-                            </tr>
+                        <tr>
+                            <th>Runway</th>
+                            <th>Length(meters)</th>
+                            <th>Selection</th>
+                        </tr>
                         </thead>
                         <tbody id="runwayTable"></tbody>
                     </table>
@@ -104,7 +104,7 @@
             <table class="table table-responsive-xl">
                 <!-- class="table table-striped table-hover table-responsive-xl" -->
                 <thead>
-                    <tr id="tableConfig"></tr>
+                <tr id="tableConfig"></tr>
                 </thead>
                 <tbody id="SidOutput"></tbody>
             </table>
@@ -232,8 +232,8 @@
                         AIRAC: 1811<br>
                         CIFP: Coded Instrument Flight Procedures"<br>
                         Database Source: <a
-                            href=" https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/cifp/">Federal
-                            Aviation Administration
+                            href=" https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/cifp/">
+                            Federal Aviation Administration
                         </a>
                     </p>
                 </div>

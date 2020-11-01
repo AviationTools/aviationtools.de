@@ -1,52 +1,7 @@
 <?php
     $page = 'about';
     $title = 'About Us';
-    include '../assets/layout/header.php';
-
-    if (isset($_POST['submit'])) {
-        $type = $_POST['type'];
-        $sect = $_POST['sect'];
-        $subj = $_POST['subject'];
-        $msg = $_POST['msg'];
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-
-        $to = 'werbungbnc@web.de';
-        $from = 'atccomteam.de';
-
-        if ($type == 'b') {
-            $subject = '[NEW BUG REPORT]: ' . $subj;
-        } else {
-            if ($type == 's') {
-                $subject = '[NEW SUGGESTION]: ' . $subj;
-            }
-        }
-
-        if ($name != '' && $email != '') {
-            $headers = 'From: ' . $from . "\r\n" . 'Reply-To: ' . $email . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-            $msg .= "\n Sender: " . $name . "\n Email: " . $email . "\n Section: " . $sect;
-        } else {
-            $headers = 'From: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-        }
-
-        $sent = mail($to, $subject, $msg, $headers);
-    }
-?>
-
-<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCREOac6DBASV-6ryQPve_TSDtrY4p8ayo",
-        authDomain: "atc-communication-generator.firebaseapp.com",
-        databaseURL: "https://atc-communication-generator.firebaseio.com",
-        projectId: "atc-communication-generator",
-        storageBucket: "atc-communication-generator.appspot.com",
-        messagingSenderId: "1059402190417"
-    };
-    firebase.initializeApp(config);
-</script>
-<script defer src="/assets/js/contact.js"></script>
+    include '../assets/layout/header.php'; ?>
 
 <div class="bg-light">
     <div class="container py-5">

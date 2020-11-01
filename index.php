@@ -87,10 +87,10 @@
         <div class="card mb-3 text-white bg-dark">
             <div class="card-body text-center">
                 <h5 class="card-title">Latest News</h5>
-                <p class="card-text"><?php echo $adminPost["postbody"] ?></p>
+                <p class="card-text">Thank you for supporting ATC-COM. A new Tool is being developed as we speak, a little hint "NOTAMS"</p>
             </div>
             <div class="card-footer text-white text-center">
-                <u><?php echo $adminPost["postdate"] ?></u>
+                <u>Posted: Thu, 27 Jun 2019 12:09:10 GMT</u>
             </div>
         </div>
     </div>
