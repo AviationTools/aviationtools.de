@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="/assets/css/custom.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-        <link rel="icon" href="/assets/img/favicon.ico">
+        <link rel="icon" href="/favicon.ico">
 
         <title><?php
                 if (isset($title)) {
