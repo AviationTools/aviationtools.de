@@ -1,6 +1,8 @@
 name: Deploy
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -8,16 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: ssh scp ssh pipelines
+      - name: Deploy
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
           WELCOME: "Copying newest version to server"
           LASTSSH: "Deploying version to server"
           TARGET_DIR: "/home/${{ secrets.DC_USER }}/aviationtools"
-          DEPLOY_SCRIPT: "/home/${{ secrets.DC_USER }}/deploy_aviationtools.sh"
+          DEPLOY_SCRIPT: "/home/${{ secrets.DC_USER }}/publish_aviationtools.sh"
         with:
           host: ${{ secrets.DC_HOST }}
           user: ${{ secrets.DC_USER }}
