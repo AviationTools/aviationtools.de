@@ -26,11 +26,11 @@ jobs:
           connect_timeout: 10s
           first_ssh: |-
             echo $WELCOME
-            rm -rf TARGET_DIR
-            mkdir -p TARGET_DIR
+            rm -rf $TARGET_DIR
+            mkdir -p $TARGET_DIR
           scp: |-
-            './*' => TARGET_DIR
+            './*' => $TARGET_DIR
           last_ssh: |-
             echo $LASTSSH
-            ls -la TARGET_DIR
+            ls -la $TARGET_DIR
             $DEPLOY_SCRIPT
