@@ -1,29 +1,28 @@
 // like button
 const snackbarElement = document.getElementById("snackbar");
 const likeOutputElement = document.getElementById("likes");
-
 const likeButtonElement = document.getElementById("likebutton");
-likeButtonElement.addEventListener('click', async function () {
 
+function showSnackbar(message, duration) {
+    snackbarElement.innerText = message;
+
+    snackbarElement.classList.add("show");
+    setTimeout(function () {
+        snackbarElement.classList.remove("show");
+    }, duration);
+}
+
+likeButtonElement.addEventListener('click', async function () {
     try {
         const likeResponse = await fetch("assets/likes/likes.php");
         const likeResponseJson = await likeResponse.json();
 
         if (likeResponseJson.found) {
-            snackbarElement.innerText = "You can only like once!";
-
-            snackbar.classList.add("show");
-            setTimeout(function () {
-                snackbar.classList.remove("show");
-            }, 3000);
+            showSnackbar("You can only like once!", 3000);
         } else {
             likeOutputElement.innerText = likeResponseJson.number;
-            snackbarElement.innerText = "Thank You!";
 
-            snackbar.classList.add("show");
-            setTimeout(function () {
-                snackbar.classList.remove("remove");
-            }, 3000);
+            showSnackbar("Thank You!", 3000);
         }
     }
     catch (e) {

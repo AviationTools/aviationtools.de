@@ -675,12 +675,12 @@ function getRunwayData(icao, callback) {
 }
 
 function getSidData(runway, icao, callback) {
-    var coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "../assets/php/sid.php/?icao=" + icao + "&runway=" + runway, true);
+    const coordinates = new XMLHttpRequest();
+    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/sids", true);
     coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     coordinates.onreadystatechange = function () {
-        if (coordinates.readyState != 4) return;
-        if (coordinates.status != 400) {
+        if (coordinates.readyState !== 4) return;
+        if (coordinates.status === 200) {
             callback(JSON.parse(coordinates.responseText));
             return;
         }
@@ -690,12 +690,12 @@ function getSidData(runway, icao, callback) {
 }
 
 function getStarData(runway, icao, callback) {
-    var coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "../assets/php/star.php/?icao=" + icao + "&runway=" + runway, true);
+    const coordinates = new XMLHttpRequest();
+    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/stars", true);
     coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     coordinates.onreadystatechange = function () {
-        if (coordinates.readyState != 4) return;
-        if (coordinates.status != 400) {
+        if (coordinates.readyState !== 4) return;
+        if (coordinates.status === 200) {
             callback(JSON.parse(coordinates.responseText));
             return;
         }
@@ -705,14 +705,12 @@ function getStarData(runway, icao, callback) {
 }
 
 function getAppData(runway, icao, callback) {
-    var coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "../assets/php/app.php/?icao=" + icao + "&runway=" + runway, true);
+    const coordinates = new XMLHttpRequest();
+    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/approaches", true);
     coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     coordinates.onreadystatechange = function () {
-        if (coordinates.readyState != 4) {
-            return;
-        }
-        if (coordinates.status != 400) {
+        if (coordinates.readyState !== 4) return;
+        if (coordinates.status === 200) {
             callback(JSON.parse(coordinates.responseText));
             return;
         }
@@ -765,7 +763,6 @@ function clearAll() {
     }
     clearTable();
     clearApp();
-    return;
 }
 
 function deleteMapElements() {
@@ -775,23 +772,22 @@ function deleteMapElements() {
     appLatlngs = [];
     polyline = [];
     appPolyline = []
-    for (i = 0; i < marker.length; i++) {
+    for (let i = 0; i < marker.length; i++) {
         mymap.removeLayer(marker[i]);
     }
     marker = [];
-    return;
 }
 
 function circleSvg() {
     // groß
-    var height = 300;
-    var width = 300;
-    var radius = width / 4;
-    var center = {
+    const height = 300;
+    const width = 300;
+    const radius = width / 4;
+    const center = {
         x: width / 2,
         y: height / 2
     }
-    var margin = 0;
+    const margin = 0;
 
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -822,19 +818,19 @@ function activeRunwayh3(temp) {
     h3.classList.add("text-white");
     h3.classList.add("rounded-circle");
     h3.classList.add("text-center");
+
     h3.innerHTML += "<u>Active Runway</u><br>" + temp.runways[0].name + "  " + temp.runways[0].length_m + "m";
     activeRunway.appendChild(h3);
-
 }
 
 function clearElements() {
     while (document.getElementById("compass").childElementCount > 0) {
         document.getElementById("compass").childNodes[0].remove();
     }
+
     while (document.getElementById("activeRunway").childElementCount > 0) {
         document.getElementById("activeRunway").childNodes[0].remove();
     }
-
 }
 
 function clearTable() {
@@ -847,7 +843,7 @@ function clearApp() {
     mymap.removeLayer(goAroundLatlngs);
     mymap.removeLayer(goAroundPolyline);
     mymap.removeLayer(holding);
-    for (i = 0; i < goAroundMarker.length; i++) {
+    for (let i = 0; i < goAroundMarker.length; i++) {
         mymap.removeLayer(goAroundMarker[i]);
     }
     holding = [];
@@ -859,19 +855,19 @@ function clearApp() {
 function appEvent(x) {
     getAppData(x.currentTarget.value, document.getElementById("icao").value, function (tempApp) {
         var appData = tempApp[x.target.id].waypoints;
-        for (i = 0; i < appData.length; i++) {
-            if (i == 0) {
+        for (let i = 0; i < appData.length; i++) {
+            if (i === 0) {
                 appLatlngs.push([latlngs[latlngs.length - 1][0], latlngs[latlngs.length - 1][1]]);
             }
-            if ((appData[i].type == "Runway") && (appData.length - 1 != i)) {
+            if ((appData[i].type === "Runway") && (appData.length - 1 !== i)) {
                 // console.log(appData[i].type + ", " + appData[i].lat +", " + appData[i].lon);
-                for (var j = (i); j < appData.length; j++) {
-                    if (appData[j].lat != 0) {
-                        var tempMarker = new L.Marker([appData[j].lat, appData[j].lon]);
+                for (let j = (i); j < appData.length; j++) {
+                    if (appData[j].lat !== 0) {
+                        let tempMarker = new L.Marker([appData[j].lat, appData[j].lon]);
                         goAroundMarker.push(tempMarker);
                         tempMarker.addTo(mymap);
                         goAroundLatlngs.push([appData[j].lat, appData[j].lon]);
-                        if (appData[j].type == "Hold") {
+                        if (appData[j].type === "Hold") {
                             holding = L.ellipse([appData[j].lat, appData[j].lon], [1500, 750], 0, {
                                 color: "yellow",
                                 weight: 8
@@ -882,7 +878,7 @@ function appEvent(x) {
                 appLatlngs.push([appData[i].lat, appData[i].lon]);
                 break;
             }
-            if (appData[i].lat != 0) {
+            if (appData[i].lat !== 0) {
                 var allMarkers = new L.Marker([appData[i].lat, appData[i].lon]);
                 marker.push(allMarkers);
                 allMarkers.addTo(mymap);

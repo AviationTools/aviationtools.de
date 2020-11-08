@@ -1,12 +1,25 @@
-const sendMetarbtn = document.getElementById("sendMetar");
-const button = document.getElementById("alex");
+// Elements
+const sendMetarButtonElement = document.getElementById("sendMetar");
+const buttonElement = document.getElementById("alex");
+const snackbarElement = document.getElementById("snackbar");
+
+function showSnackbar(message, duration) {
+    snackbarElement.innerText = message;
+
+    snackbarElement.classList.add("show");
+    setTimeout(function () {
+        snackbarElement.classList.remove("show");
+    }, duration);
+}
+
+// Firebase
 const messageListRef = firebase.database().ref('LastIcao');
 const messageListRefRep = firebase.database().ref('Reports');
 
 //Live Clock UTC
-const span = document.getElementById('time');
+const timeOutputElement = document.getElementById('time');
 
-function time() {
+function updateTimeOutput() {
     let d = new Date();
     let s = d.getUTCSeconds();
     let m = d.getUTCMinutes();
@@ -20,10 +33,10 @@ function time() {
     if (h < 10) {
         h = "0" + h;
     }
-    span.textContent = "UTC " + h + ":" + m + ":" + s;
+    timeOutputElement.textContent = "UTC " + h + ":" + m + ":" + s;
 }
 
-setInterval(time, 1000);
+setInterval(updateTimeOutput, 1000);
 
 // circle svg
 function circle(metarHeading, heading, size) {
@@ -88,112 +101,90 @@ input.addEventListener("keyup", function (event) {
         main();
     }
 });
-button.addEventListener("click", main);
+buttonElement.addEventListener("click", main);
 
 // main analysis
-function main() {
+async function main() {
     clearElements();
-    /* =+ konvertiert string zu int*/
-    let x = document.getElementById("sk-fading-circle");
-    let table = document.getElementById("out")
-    let mtable = document.getElementById("metar")
-    let refbtn = document.getElementById("RefreshBtn")
-    let geticao = document.getElementById("icao").value;
+
+    let spinnerElement = document.getElementById("sk-fading-circle");
+    let tableElement = document.getElementById("out")
+    let metarTableElement = document.getElementById("metar")
+    let refreshButtonElement = document.getElementById("RefreshBtn")
+    let icaoInputElement = document.getElementById("icao");
     document.getElementById("icao").value = "";
-    let icao = geticao.toUpperCase();
-    let output = document.getElementById("output");
-    let metarOutput = document.getElementById("metarOutput");
-    let usableInfo = {};
-    let Metar = {};
-    const snackbar = document.getElementById("snackbar");
+    let icao = icaoInputElement.value.toUpperCase();
+    let outputElement = document.getElementById("output");
+    let metarOutputElement = document.getElementById("metarOutput");
 
     loadingSpinner(false);
 
-    if (refbtn.style.display === "flex") {
+    if (refreshButtonElement.style.display === "flex") {
         window.location.reload();
     } else {
-        if (icao === "" || icao.length !== 4) {
-            snackbar.innerText = "No ICAO or too long!";
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
+        if (icao === "") {
+            showSnackbar("No ICAO!", 3000);
         } else {
-            const Info = new XMLHttpRequest();
-            Info.open("GET", `/api/airports/${icao}/runways`, true);
-            Info.onreadystatechange = function () {
-                if (Info.readyState !== 4) return;
-                x.style.display = "none";
+            const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
+            const runwaysResponseJson = await runwaysResponse.json();
 
-                loadingSpinner(true);
+            spinnerElement.style.display = "none";
 
-                table.style.display = "flex";
-                mtable.style.display = "flex";
-                usableInfo = JSON.parse(Info.responseText);
+            loadingSpinner(true);
 
-                console.log(usableInfo);
-                sendMetarbtn.style.display = "block";
+            tableElement.style.display = "flex";
+            metarTableElement.style.display = "flex";
 
-                if (usableInfo.error) {
-                    snackbar.innerText = "Wrong ICAO!";
-                    snackbar.className = "show";
-                    setTimeout(function () {
-                        snackbar.className = snackbar.className.replace("show", "");
-                    }, 3000);
-                    output.style.display = "none";
-                    metarOutput.style.display = "none";
-                } else {
-                    Metar = usableInfo.weather;
-                    metarOutput.innerHTML += "<tr>" + "<td>" + Metar.metar + "</td>" + "<td>" + Metar.ceiling_ft + "</td>" + "<td>" + Metar.visibility_statute_mi + "</td></tr>";
+            console.log(runwaysResponseJson);
+            sendMetarButtonElement.style.display = "block";
 
-                    // let temp = "";
-                    for (let i = 0; i < usableInfo.runways.length; i++) {
-                        let tr = document.createElement("tr");
-                        tr.classList.add("tr-data");
-                        tr.innerHTML += "<th class='align-middle'>" + usableInfo.runways[i].name + "</th><td class='align-middle'>" + usableInfo.runways[i].length_m + "</td><td class='align-middle'>" + usableInfo.runways[i].notes + "</td><td class='align-middle'>" + usableInfo.runways[i].croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + usableInfo.runways[i].headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + usableInfo.runways[i].ifr + "</td>" + "<td class='align-middle'>" + notamInfo(usableInfo.runways[i]) + "</td>";
+            if (runwaysResponseJson.error) {
+                showSnackbar("Wrong ICAO!", 3000);
 
-                        if (usableInfo.runways[i].notams.closed) {
-                            notamBox(usableInfo.runways[i]);
-                            tr.className += " text-danger";
-                        }
+                outputElement.style.display = "none";
+                metarOutputElement.style.display = "none";
+            } else {
+                const weather = runwaysResponseJson.weather;
+                metarOutputElement.innerHTML += "<tr><td>" + weather.metar + "</td><td>" + weather.ceiling_ft + "</td><td>" + weather.visibility_statute_mi + "</td></tr>";
 
-                        if (i === 0) {
-                            tr.className += " text-success";
-                        }
+                for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
+                    const currentRunway = runwaysResponseJson.runways[i];
 
-                        let td = document.createElement("td");
-                        td.classList.add("compass");
-                        td.appendChild(circle(Metar.wind_dir_degrees, usableInfo.runways[i].heading));
+                    let tr = document.createElement("tr");
+                    tr.classList.add("tr-data");
+                    tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>" + notamInfo(currentRunway) + "</td>";
 
-                        tr.appendChild(td);
-                        output.appendChild(tr);
+                    if (currentRunway.notams.closed) {
+                        notamBox(currentRunway);
+                        tr.classList.add("text-danger");
                     }
 
-                    let newIcao = messageListRef.push();
-                    newIcao.set({
-                        "Icao": icao
-                    });
-                }
-                let runways = [];
-                let id1 = usableInfo.runways[0].id;
-                for (let i = 0; i < usableInfo.runways.length; i++) {
-                    runways.push(usableInfo.runways[i].id);
-                    if (usableInfo.runways.length - 1 === i) {
-                        runways.shift();
+                    if (i === 0) {
+                        tr.classList.add("text-success");
                     }
-                }
-                let id2 = runways.indexOf(id1) + 1;
-                let metarHeading = Metar.wind_dir_degrees
-                let rwy1 = usableInfo.runways[0].heading;
-                let rwy2 = usableInfo.runways[id2].heading;
 
-                let svg = circle(metarHeading, rwy1, 1);
-                console.log(svg);
-                document.querySelector("#compassrose").appendChild(svg);
+                    let td = document.createElement("td");
+                    td.classList.add("compass");
+                    td.appendChild(circle(weather.wind_dir_degrees, currentRunway.heading));
+
+                    tr.appendChild(td);
+                    outputElement.appendChild(tr);
+                }
+
+                let newIcao = messageListRef.push();
+                newIcao.set({
+                    "Icao": icao
+                });
             }
+
+            let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
+            let rwy1 = runwaysResponseJson.runways[0].heading;
+
+            let svg = circle(metarHeading, rwy1, 1);
+            console.log(svg);
+            document.querySelector("#compassrose").appendChild(svg);
         }
     }
-    Info.send();
 }
 
 // aerodrome history
@@ -209,7 +200,7 @@ messageList.on('value', function (snapshot) {
     IcaoOutput.innerHTML = newhtml;
 });
 
-sendMetarbtn.addEventListener("click", function () {
+sendMetarButtonElement.addEventListener("click", function () {
     let icao = document.getElementById("icao").value;
 
     window.open(`http://aviationtools.de/metar/?icao=${icao}`);
@@ -245,20 +236,19 @@ function notamBox(input) {
 
 function loadingSpinner(ready) {
     if (ready) {
-        while (button.firstChild) {
-            button.removeChild(button.firstChild);
+        while (buttonElement.firstChild) {
+            buttonElement.removeChild(buttonElement.firstChild);
         }
-        button.removeAttribute("disabled");
-        button.innerText = "Decode";
+        buttonElement.removeAttribute("disabled");
+        buttonElement.innerText = "Decode";
     } else {
         let span = document.createElement("span");
-        let p = document.createElement("p");
-        button.setAttribute("disabled", "");
+        buttonElement.setAttribute("disabled", "");
         span.classList.add("spinner-border");
         span.classList.add("spinner-border-sm");
         span.setAttribute("role", "status");
         span.setAttribute("aria-hidden", "true");
-        button.innerText = "Loading...  ";
-        button.appendChild(span);
+        buttonElement.innerText = "Loading...  ";
+        buttonElement.appendChild(span);
     }
 }
