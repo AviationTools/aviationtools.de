@@ -1,18 +1,25 @@
 // Elements
-const sendMetarButtonElement = document.getElementById("sendMetar");
+const timeOutputElement = document.getElementById('time');
+
 const analyseButtonElement = document.getElementById("alex");
 const icaoInputElement = document.getElementById("icao");
-const snackbarElement = document.getElementById("snackbar");
 const icaoHistoryOutputElement = document.getElementById("lasticao");
 const spinnerElement = document.getElementById("sk-fading-circle");
 const tableElement = document.getElementById("out")
-const metarTableElement = document.getElementById("metar")
-const refreshButtonElement = document.getElementById("RefreshBtn")
 const runwayOutputElement = document.getElementById("output");
-const metarOutputElement = document.getElementById("metarOutput");
-const compassRoseOutputElement = document.getElementById("compassrose");
-const timeOutputElement = document.getElementById('time');
 
+const sendMetarButtonElement = document.getElementById("sendMetar");
+const compassRoseOutputElement = document.getElementById("compassrose");
+const metarOutputElement = document.getElementById("metarOutput");
+
+// Refresh button
+const refreshButtonElement = document.getElementById("refreshBtn");
+refreshButtonElement.addEventListener("click", () => {
+    window.location.reload();
+});
+
+// Snackbar
+const snackbarElement = document.getElementById("snackbar");
 function showSnackbar(message, duration) {
     snackbarElement.innerText = message;
 
@@ -22,7 +29,7 @@ function showSnackbar(message, duration) {
     }, duration);
 }
 
-//Live Clock UTC
+// Live Clock UTC
 function updateTimeOutput() {
     let d = new Date();
     let s = d.getUTCSeconds();
@@ -112,72 +119,67 @@ async function main() {
 
     clearElements();
 
-    const icao = icaoInputElement.value.toUpperCase();
+    const icao = icaoInputElement.value;
     // icaoInputElement.value = ""; // TODO: Why?
 
     loadingSpinner(false);
 
-    if (refreshButtonElement.style.display === "flex") {
-        window.location.reload();
+    if (icao === "") {
+        showSnackbar("No ICAO!", 3000);
+        return;
+    }
+    else if (icao.length < 3) {
+        showSnackbar("ICAO is to short!", 3000);
+        return;
+    }
+
+    const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
+    const runwaysResponseJson = await runwaysResponse.json();
+
+    spinnerElement.style.display = "none";
+
+    loadingSpinner(true);
+
+    tableElement.style.display = "flex";
+
+    console.log(runwaysResponseJson);
+    sendMetarButtonElement.style.display = "block";
+
+    if (runwaysResponseJson.error) {
+        showSnackbar("Wrong ICAO!", 3000);
+
+        runwayOutputElement.style.display = "none";
+        metarOutputElement.style.display = "none";
     } else {
-        if (icao === "") {
-            showSnackbar("No ICAO!", 3000);
-        } else {
-            const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
-            const runwaysResponseJson = await runwaysResponse.json();
+        const weather = runwaysResponseJson.weather;
+        metarOutputElement.innerHTML += "<tr><td>" + weather.metar + "</td><td>" + weather.ceiling_ft + "</td><td>" + weather.visibility_statute_mi + "</td></tr>";
 
-            spinnerElement.style.display = "none";
+        for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
+            const currentRunway = runwaysResponseJson.runways[i];
 
-            loadingSpinner(true);
+            let tr = document.createElement("tr");
+            tr.classList.add("tr-data");
+            tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>TODO: Notam info</td>";
 
-            tableElement.style.display = "flex";
-            metarTableElement.style.display = "flex";
-
-            console.log(runwaysResponseJson);
-            sendMetarButtonElement.style.display = "block";
-
-            if (runwaysResponseJson.error) {
-                showSnackbar("Wrong ICAO!", 3000);
-
-                runwayOutputElement.style.display = "none";
-                metarOutputElement.style.display = "none";
-            } else {
-                const weather = runwaysResponseJson.weather;
-                metarOutputElement.innerHTML += "<tr><td>" + weather.metar + "</td><td>" + weather.ceiling_ft + "</td><td>" + weather.visibility_statute_mi + "</td></tr>";
-
-                for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
-                    const currentRunway = runwaysResponseJson.runways[i];
-
-                    let tr = document.createElement("tr");
-                    tr.classList.add("tr-data");
-                    tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>TODO: Notam info</td>";
-
-                    if (i === 0) {
-                        tr.classList.add("text-success");
-                    }
-
-                    let td = document.createElement("td");
-                    td.classList.add("compass");
-                    td.appendChild(circle(weather.wind_dir_degrees, currentRunway.heading));
-
-                    tr.appendChild(td);
-                    runwayOutputElement.appendChild(tr);
-                }
-
-                let newIcao = messageListRef.push();
-                newIcao.set({
-                    "Icao": icao
-                });
+            if (i === 0) {
+                tr.classList.add("text-success");
             }
 
-            let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
-            let rwy1 = runwaysResponseJson.runways[0].heading;
+            let td = document.createElement("td");
+            td.classList.add("compass");
+            td.appendChild(circle(weather.wind_dir_degrees, currentRunway.heading));
 
-            let svg = circle(metarHeading, rwy1, 1);
-            console.log(svg);
-            compassRoseOutputElement.appendChild(svg);
+            tr.appendChild(td);
+            runwayOutputElement.appendChild(tr);
         }
     }
+
+    let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
+    let rwy1 = runwaysResponseJson.runways[0].heading;
+
+    let svg = circle(metarHeading, rwy1, 1);
+    console.log(svg);
+    compassRoseOutputElement.appendChild(svg);
 }
 
 // Aerodrome history

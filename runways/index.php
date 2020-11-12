@@ -24,7 +24,7 @@
                     <button type="button" class="btn btn-success mx-1" id="sendMetar" style="display:none;">
                         &nbsp;Decode Metar <i class="fas fa-chevron-circle-right"></i>
                     </button>
-                    <button id="RefreshBtn" type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-secondary mx-1">
+                    <button id="refreshBtn" type="reset" value="Reset" class="btn btn-secondary mx-1">
                         <i class="fas fa-sync-alt"></i>
                     </button>
                 </div>
