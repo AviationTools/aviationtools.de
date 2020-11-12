@@ -1,7 +1,16 @@
 // Elements
 const sendMetarButtonElement = document.getElementById("sendMetar");
-const buttonElement = document.getElementById("alex");
+const analyseButtonElement = document.getElementById("alex");
+const icaoInputElement = document.getElementById("icao");
 const snackbarElement = document.getElementById("snackbar");
+const icaoHistoryOutputElement = document.getElementById("lasticao");
+const spinnerElement = document.getElementById("sk-fading-circle");
+const tableElement = document.getElementById("out")
+const metarTableElement = document.getElementById("metar")
+const refreshButtonElement = document.getElementById("RefreshBtn")
+const runwayOutputElement = document.getElementById("output");
+const metarOutputElement = document.getElementById("metarOutput");
+const compassRoseOutputElement = document.getElementById("compassrose");
 
 function showSnackbar(message, duration) {
     snackbarElement.innerText = message;
@@ -11,10 +20,6 @@ function showSnackbar(message, duration) {
         snackbarElement.classList.remove("show");
     }, duration);
 }
-
-// Firebase
-const messageListRef = firebase.database().ref('LastIcao');
-const messageListRefRep = firebase.database().ref('Reports');
 
 //Live Clock UTC
 const timeOutputElement = document.getElementById('time');
@@ -40,82 +45,76 @@ setInterval(updateTimeOutput, 1000);
 
 // circle svg
 function circle(metarHeading, heading, size) {
+    let circleConfig = {};
     if (size === 1) {
-        // groß
-        let height = 300;
-        let width = 300;
-        let radius = width / 2.6;
-        let center = {
-            x: width / 2,
+        // big
+        circleConfig.height = 300;
+        circleConfig.width = 300;
+        circleConfig.radius = circleConfig.width / 2.6;
+        circleConfig.center = {
+            x: circleConfig.width / 2,
             y: height / 2
-        }
-        let margin = 0;
+        };
+        circleConfig.margin = 0;
     } else {
-        // klein
-        let height = 150;
-        let width = 150;
-        let radius = width / 3.5;
-        let center = {
-            x: width / 2,
+        // small
+        circleConfig.height = 150;
+        circleConfig.width = 150;
+        circleConfig.radius = circleConfig.width / 3.5;
+        circleConfig.center = {
+            x: circleConfig.width / 2,
             y: height / 2
-        }
-        let margin = -5;
+        };
+        circleConfig.margin = -5;
     }
-
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.classList.add("circle");
-    svg.setAttribute("height", height);
-    svg.setAttribute("width", width);
+    svg.setAttribute("height", circleConfig.height);
+    svg.setAttribute("width", circleConfig.width);
 
-    svg.innerHTML += '<circle r="' + radius + '" cx="' + center.x + '" cy="' + center.y + '" stroke="black" stroke-width="1" fill="white" />';
+    svg.innerHTML += '<circle r="' + circleConfig.radius + '" cx="' + circleConfig.center.x + '" cy="' + circleConfig.center.y + '" stroke="black" stroke-width="1" fill="white" />';
 
-    svg.innerHTML += '<text x="' + (center.x - 15) + '" y="' + (center.y - radius - 8 - margin) + '" fill="black">360°</text>';
-    svg.innerHTML += '<text x="' + (center.x + radius + 10 + margin) + '" y="' + (center.y + 8) + '" fill="black">90°</text>';
-    svg.innerHTML += '<text x="' + (center.x - radius - 35 - margin) + '" y="' + (center.y + 8) + '" fill="black">270°</text>';
-    svg.innerHTML += '<text x="' + (center.x - 15) + '" y="' + (center.y + radius + 16 + margin) + '" fill="black">180°</text>';
+    svg.innerHTML += '<text x="' + (circleConfig.center.x - 15) + '" y="' + (circleConfig.center.y - circleConfig.radius - 8 - circleConfig.margin) + '" fill="black">360°</text>';
+    svg.innerHTML += '<text x="' + (circleConfig.center.x + circleConfig.radius + 10 + circleConfig.margin) + '" y="' + (circleConfig.center.y + 8) + '" fill="black">90°</text>';
+    svg.innerHTML += '<text x="' + (circleConfig.center.x - circleConfig.radius - 35 - circleConfig.margin) + '" y="' + (circleConfig.center.y + 8) + '" fill="black">270°</text>';
+    svg.innerHTML += '<text x="' + (circleConfig.center.x - 15) + '" y="' + (circleConfig.center.y + circleConfig.radius + 16 + circleConfig.margin) + '" fill="black">180°</text>';
 
-    //Wind
-    let windX = center.x + (radius * Math.sin(0.01745329251 * metarHeading));
-    let windY = center.y + (radius * -Math.cos(0.01745329251 * metarHeading));
-    svg.innerHTML += "<line x1=" + center.x + " y1=" + center.y + " x2=" + windX + " y2=" + windY + " style=stroke:blue;stroke-width:2 ></line>";
+    // Wind
+    let windX = circleConfig.center.x + (circleConfig.radius * Math.sin(0.01745329251 * metarHeading));
+    let windY = circleConfig.center.y + (circleConfig.radius * -Math.cos(0.01745329251 * metarHeading));
+    svg.innerHTML += "<line x1=" + circleConfig.center.x + " y1=" + circleConfig.center.y + " x2=" + windX + " y2=" + windY + " style=stroke:blue;stroke-width:2 ></line>";
 
-    //Runways
+    // Runways
     let reverseHeading = heading + 180;
 
-    let x1 = center.x + (radius * Math.sin(0.01745329251 * heading));
-    let y1 = center.y + (radius * -Math.cos(0.01745329251 * heading));
+    let x1 = circleConfig.center.x + (circleConfig.radius * Math.sin(0.01745329251 * heading));
+    let y1 = circleConfig.center.y + (circleConfig.radius * -Math.cos(0.01745329251 * heading));
 
-    let x2 = center.x + (radius * Math.sin(0.01745329251 * reverseHeading));
-    let y2 = center.y + (radius * -Math.cos(0.01745329251 * reverseHeading));
+    let x2 = circleConfig.center.x + (circleConfig.radius * Math.sin(0.01745329251 * reverseHeading));
+    let y2 = circleConfig.center.y + (circleConfig.radius * -Math.cos(0.01745329251 * reverseHeading));
 
     svg.innerHTML += "<line x1=" + x1 + " y1=" + y1 + " x2=" + x2 + " y2=" + y2 + " style=stroke:black;stroke-width:2 ></line>";
 
     return svg;
 }
 
-let input = document.getElementById("icao");
-input.addEventListener("keyup", function (event) {
+icaoInputElement.addEventListener("keyup", function (event) {
     event.preventDefault();
-    if (event.keyCode === 13) {
+    if (event.code === "Enter") {
         main();
     }
 });
-buttonElement.addEventListener("click", main);
+analyseButtonElement.addEventListener("click", main);
 
 // main analysis
 async function main() {
+    await updateRunwayHistory();
+
     clearElements();
 
-    let spinnerElement = document.getElementById("sk-fading-circle");
-    let tableElement = document.getElementById("out")
-    let metarTableElement = document.getElementById("metar")
-    let refreshButtonElement = document.getElementById("RefreshBtn")
-    let icaoInputElement = document.getElementById("icao");
-    document.getElementById("icao").value = "";
-    let icao = icaoInputElement.value.toUpperCase();
-    let outputElement = document.getElementById("output");
-    let metarOutputElement = document.getElementById("metarOutput");
+    const icao = icaoInputElement.value.toUpperCase();
+    // icaoInputElement.value = ""; // TODO: Why?
 
     loadingSpinner(false);
 
@@ -141,7 +140,7 @@ async function main() {
             if (runwaysResponseJson.error) {
                 showSnackbar("Wrong ICAO!", 3000);
 
-                outputElement.style.display = "none";
+                runwayOutputElement.style.display = "none";
                 metarOutputElement.style.display = "none";
             } else {
                 const weather = runwaysResponseJson.weather;
@@ -152,12 +151,7 @@ async function main() {
 
                     let tr = document.createElement("tr");
                     tr.classList.add("tr-data");
-                    tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>" + notamInfo(currentRunway) + "</td>";
-
-                    if (currentRunway.notams.closed) {
-                        notamBox(currentRunway);
-                        tr.classList.add("text-danger");
-                    }
+                    tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>TODO: Notam info</td>";
 
                     if (i === 0) {
                         tr.classList.add("text-success");
@@ -168,7 +162,7 @@ async function main() {
                     td.appendChild(circle(weather.wind_dir_degrees, currentRunway.heading));
 
                     tr.appendChild(td);
-                    outputElement.appendChild(tr);
+                    runwayOutputElement.appendChild(tr);
                 }
 
                 let newIcao = messageListRef.push();
@@ -182,73 +176,58 @@ async function main() {
 
             let svg = circle(metarHeading, rwy1, 1);
             console.log(svg);
-            document.querySelector("#compassrose").appendChild(svg);
+            compassRoseOutputElement.appendChild(svg);
         }
     }
 }
 
-// aerodrome history
-let messageList = firebase.database().ref('LastIcao').limitToLast(3);
-messageList.on('value', function (snapshot) {
-    //updateNachrichten
-    let IcaoOutput = document.getElementById("lasticao");
-    let newhtml = "";
-    let temp = snapshot.val();
-    for (let child in temp) {
-        newhtml += "<li>" + temp[child].Icao + "</li>";
+// Aerodrome history
+async function updateRunwayHistory() {
+    const historyResponse = await fetch("/api/airports/runways/history");
+    const historyResponseJson = await historyResponse.json();
+
+    let icaoHistoryOutputHtml = "";
+    for (let entry of historyResponseJson) {
+        icaoHistoryOutputHtml += "<li>" + entry.icao + "</li>";
     }
-    IcaoOutput.innerHTML = newhtml;
-});
+
+    icaoHistoryOutputElement.innerHTML = icaoHistoryOutputHtml;
+}
+updateRunwayHistory();
 
 sendMetarButtonElement.addEventListener("click", function () {
-    let icao = document.getElementById("icao").value;
+    const icao = icaoInputElement.value;
 
     window.open(`http://aviationtools.de/metar/?icao=${icao}`);
-})
+});
 
 function clearElements() {
-    while (document.getElementById("output").childElementCount > 0) {
-        document.getElementById("output").childNodes[0].remove();
+    while (runwayOutputElement.childElementCount > 0) {
+        runwayOutputElement.childNodes[0].remove();
     }
-    while (document.getElementById("metarOutput").childElementCount > 0) {
-        document.getElementById("metarOutput").childNodes[0].remove();
+    while (metarOutputElement.childElementCount > 0) {
+        metarOutputElement.childNodes[0].remove();
     }
-    while (document.getElementById("compassrose").childElementCount > 0) {
-        document.getElementById("compassrose").childNodes[0].remove();
+    while (compassRoseOutputElement.childElementCount > 0) {
+        compassRoseOutputElement.childNodes[0].remove();
     }
-    while (document.getElementById("notamCard").childElementCount > 0) {
-        document.getElementById("notamCard").childNodes[0].remove();
-    }
-}
-
-
-//Notam Information
-function notamInfo(input) {
-    return "<ul><font size='2'><li>" + input.notams.specifics + "</li></font><br><font size='2'><li>" + input.notams.countdown + "</li></font></ul>";
-}
-
-function notamBox(input) {
-    console.log(input);
-    let notamOutput = document.getElementById("notamCard");
-    notamOutput.innerHTML += "<li><h6>Runway " + input.name + " Closed</h6></li>";
-
 }
 
 function loadingSpinner(ready) {
     if (ready) {
-        while (buttonElement.firstChild) {
-            buttonElement.removeChild(buttonElement.firstChild);
+        while (analyseButtonElement.firstChild) {
+            analyseButtonElement.removeChild(analyseButtonElement.firstChild);
         }
-        buttonElement.removeAttribute("disabled");
-        buttonElement.innerText = "Decode";
+        analyseButtonElement.removeAttribute("disabled");
+        analyseButtonElement.innerText = "Decode";
     } else {
         let span = document.createElement("span");
-        buttonElement.setAttribute("disabled", "");
+        analyseButtonElement.setAttribute("disabled", "");
         span.classList.add("spinner-border");
         span.classList.add("spinner-border-sm");
         span.setAttribute("role", "status");
         span.setAttribute("aria-hidden", "true");
-        buttonElement.innerText = "Loading...  ";
-        buttonElement.appendChild(span);
+        analyseButtonElement.innerText = "Loading...  ";
+        analyseButtonElement.appendChild(span);
     }
 }

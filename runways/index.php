@@ -3,19 +3,6 @@
     $title = 'Runway Analysis';
     include '../assets/layout/header.php'; ?>
 
-<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCREOac6DBASV-6ryQPve_TSDtrY4p8ayo",
-        authDomain: "atc-communication-generator.firebaseapp.com",
-        databaseURL: "https://atc-communication-generator.firebaseio.com",
-        projectId: "atc-communication-generator",
-        storageBucket: "atc-communication-generator.appspot.com",
-        messagingSenderId: "1059402190417"
-    };
-    firebase.initializeApp(config);
-</script>
 <script defer src="/runways/runways.js"></script>
 
 <div class="row">
@@ -42,17 +29,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-
-        <!-- metar display -->
-        <div id="metar" style="display:none;">
-            <table class="table table-bordered" id="metarOutput">
-                <tr>
-                    <th>METAR</th>
-                    <th>Ceiling (ft)</th>
-                    <th>Visibility (km)</th>
-                </tr>
-            </table>
         </div>
 
         <!-- analysis -->
