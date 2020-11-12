@@ -61,7 +61,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/">
-                            <i class="fas fa-home"></i> &nbsp;Home
+                            <i class="fas fa-home"></i>&nbsp;Home
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -69,7 +69,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/sidstar/">
-                            <i class="fas fa-route"></i> &nbsp;SidStar
+                            <i class="fas fa-route"></i>&nbsp;SidStar
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -77,7 +77,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/atc/">
-                            <i class="fas fa-broadcast-tower"></i> &nbsp;ATC Comms
+                            <i class="fas fa-broadcast-tower"></i>&nbsp;ATC Comms
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -85,7 +85,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/runways/">
-                            <i class="fas fa-plane-departure"></i> &nbsp;Runways
+                            <i class="fas fa-plane-departure"></i>&nbsp;Runways
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -93,7 +93,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/game/">
-                            <i class="fas fa-gamepad"></i> &nbsp;Pilot Test
+                            <i class="fas fa-gamepad"></i>&nbsp;Pilot Test
                             <small class="badge badge-warning">New</small>
                         </a>
                     </li>
@@ -102,14 +102,14 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-list-alt"></i> &nbsp;Decoder
+                            <i class="fas fa-list-alt"></i>&nbsp;Decoder
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/metar/">
-                                <i class="fas fa-cloud"></i> &nbsp;METAR Decoder
+                                <i class="fas fa-cloud"></i>&nbsp;METAR Decoder
                             </a>
                             <a class="dropdown-item" href="/notams/">
-                                <i class="fas fa-newspaper"></i> &nbsp;Notam Decoder
+                                <i class="fas fa-newspaper"></i>&nbsp;Notam Decoder
                                 <small class="badge badge-warning">New</small>
                             </a>
                         </div>
@@ -119,7 +119,7 @@
                             echo 'active';
                         } ?>">
                         <a class="nav-link" href="/about/">
-                            <i class="fas fa-comment"></i> &nbsp;About Us
+                            <i class="fas fa-comment"></i>&nbsp;About Us
                         </a>
                     </li>
                 </ul>

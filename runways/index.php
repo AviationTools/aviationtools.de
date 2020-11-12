@@ -19,9 +19,9 @@
             <div class="col">
                 <div class="row">
                     <button type="button" class="btn btn-primary mx-1" id="alex">
-                        <i class="fas fa-calculator"></i> &nbsp;Analyse
+                        <i class="fas fa-calculator"></i>&nbsp;Analyse
                     </button>
-                    <button type="button" class="btn btn-success mx-1" id="sendMetar" style="display:none;" target="_blank">
+                    <button type="button" class="btn btn-success mx-1" id="sendMetar" style="display:none;">
                         &nbsp;Decode Metar <i class="fas fa-chevron-circle-right"></i>
                     </button>
                     <button id="RefreshBtn" type="reset" value="Reset" onClick="window.location.reload()" class="btn btn-secondary mx-1">
@@ -75,7 +75,7 @@
             <div class="col-xl-7">
                 <!-- compass rose -->
                 <div class="card mb-4">
-                    <h5 class="card-header"><i class="fas fa-compass"></i> &nbsp;Best Runway</h5>
+                    <h5 class="card-header"><i class="fas fa-compass"></i>&nbsp;Best Runway</h5>
                     <div class="card-body" id="compassrose"></div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="col-xl-5">
                 <!-- aerodrome history -->
                 <div class="card mb-4">
-                    <h5 class="card-header"><i class="fas fa-history"></i> &nbsp;History</h5>
+                    <h5 class="card-header"><i class="fas fa-history"></i>&nbsp;History</h5>
                     <div class="card-body">
                         <ol class="card-text" id="lasticao"></ol>
                     </div>
@@ -91,7 +91,7 @@
 
                 <!-- Notam Information -->
                 <div class="card mb-4">
-                    <h5 class="card-header"><i class="fas fa-exclamation"></i> &nbsp;Notams</h5>
+                    <h5 class="card-header"><i class="fas fa-exclamation"></i>&nbsp;Notams</h5>
                     <div class="card-body">
                         <ul class="card-text text-danger" id="notamCard"></ul>
                     </div>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="card">
-            <h3 class="card-header"><i class="fas fa-question-circle"></i> &nbsp;Help</h3>
+            <h3 class="card-header"><i class="fas fa-question-circle"></i>&nbsp;Help</h3>
 
             <div class="card-body">
                 <h5 class="card-title">Using this tool</h5>
