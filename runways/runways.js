@@ -11,6 +11,7 @@ const refreshButtonElement = document.getElementById("RefreshBtn")
 const runwayOutputElement = document.getElementById("output");
 const metarOutputElement = document.getElementById("metarOutput");
 const compassRoseOutputElement = document.getElementById("compassrose");
+const timeOutputElement = document.getElementById('time');
 
 function showSnackbar(message, duration) {
     snackbarElement.innerText = message;
@@ -22,8 +23,6 @@ function showSnackbar(message, duration) {
 }
 
 //Live Clock UTC
-const timeOutputElement = document.getElementById('time');
-
 function updateTimeOutput() {
     let d = new Date();
     let s = d.getUTCSeconds();
@@ -40,7 +39,7 @@ function updateTimeOutput() {
     }
     timeOutputElement.textContent = "UTC " + h + ":" + m + ":" + s;
 }
-
+updateTimeOutput();
 setInterval(updateTimeOutput, 1000);
 
 // circle svg
