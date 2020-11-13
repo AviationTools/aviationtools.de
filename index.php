@@ -96,10 +96,10 @@
         <div class="card mb-3 text-white bg-dark">
             <div class="card-body text-center">
                 <h5 class="card-title">Latest News</h5>
-                <p class="card-text">Thank you for supporting ATC-COM. A new Tool is being developed as we speak, a little hint "NOTAMS"</p>
+                <p class="card-text">Thank you for all your questions about the current state of this website. We are hard at work migrating to our new domain <a href="https://aviationtools.de">aviationtools.de</a>. We ask for your understanding and patience while we get the website back into a working state.</p>
             </div>
             <div class="card-footer text-white text-center">
-                <u>Posted: Thu, 27 Jun 2019 12:09:10 GMT</u>
+                <u>Posted: Fri, 13 Nov 2020 14:31:12 GMT</u>
             </div>
         </div>
     </div>
