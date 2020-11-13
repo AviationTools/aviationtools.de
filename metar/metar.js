@@ -4,6 +4,28 @@ const decodeButtonElement = document.getElementById("decode-button");
 const clearButtonElement = document.getElementById("clear-button");
 const reportOutputElement = document.getElementById("report-output");
 
+// load icao from url parameter on initial page load
+function findGetParameter(parameterName) {
+    let result = null,
+        tmp = [];
+    const items = location.search.substr(1).split("&");
+    for (let index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+}
+
+if (location.search) {
+    const urlIcaoParameter = findGetParameter("icao")
+
+    if (urlIcaoParameter) {
+        icaoInputElement.value = urlIcaoParameter;
+        fetchMetarAndDecode();
+    }
+}
+
+// initialize metar examples
 for (let exampleButtonElement of document.getElementsByClassName("metar-example")) {
     exampleButtonElement.addEventListener("click", () => {
         icaoInputElement.value = exampleButtonElement.dataset["metar"];
@@ -51,32 +73,16 @@ async function fetchMetarAndDecode() {
 
         if (metarResponseJson.error) {
             reportOutputElement.value = "";
-            showSnackbar("Wrong ICAO!", 3000);
+            showSnackbar("Could not get metar for ICAO!", 3000);
         } else {
             reportOutputElement.value = metarDecode(metarResponseJson.metar);
-            icaoInputElement.value = metarResponseJson.metar
+            icaoInputElement.value = metarResponseJson.metar;
         }
     }
     catch (e) {
         reportOutputElement.value = "";
         console.error("error while fetching metar", e);
-        showSnackbar("Could not decode icao!", 3000);
-    }
-}
-
-let str = location.search;
-if (str) {
-    let objURL = {};
-    str.replace(
-        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-        function ($0, $1, $2, $3) {
-            objURL[$1] = $3;
-        }
-    );
-
-    if (objURL.icao !== "") {
-        icaoInputElement.value = objURL.icao;
-        fetchMetarAndDecode();
+        showSnackbar("Could not get metar for ICAO!", 3000);
     }
 }
 

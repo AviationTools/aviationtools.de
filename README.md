@@ -7,3 +7,7 @@ Start the dev server with the [/devserver/start-dev-server.sh](devserver/start-d
 
 ## TODO's
 - Fuel Planner & Berechnungen
+- Find alternative metar example 3
+    - No available metar data for EGXX
+- Do not use str.replace for iterating through get parameters
+    - metar.js
