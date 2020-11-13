@@ -113,8 +113,6 @@ analyseButtonElement.addEventListener("click", main);
 
 // main analysis
 async function main() {
-    await updateRunwayHistory();
-
     clearElements();
 
     const icao = icaoInputElement.value;
@@ -134,11 +132,10 @@ async function main() {
     const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
     const runwaysResponseJson = await runwaysResponse.json();
 
+    await updateRunwayHistory();
     loadingSpinner(true);
 
     tableElement.style.display = "flex";
-
-    console.log(runwaysResponseJson);
     sendMetarButtonElement.style.display = "block";
 
     if (runwaysResponseJson.error) {
@@ -172,7 +169,6 @@ async function main() {
     let rwy1 = runwaysResponseJson.runways[0].heading;
 
     let svg = circle(metarHeading, rwy1, 1);
-    console.log(svg);
     compassRoseOutputElement.appendChild(svg);
 }
 
