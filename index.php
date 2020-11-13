@@ -68,45 +68,45 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- 1 column for sm --></div>
+            <div class="w-100 d-none d-sm-block d-md-none"><!-- 1 column for sm --></div>
 
-        <div class="card mb-3 bg-warning">
-            <div class="card-body text-center">
-                <h5 class="card-title">About this Site</h5>
-                <p class="card-text">This website contains some useful tools for online flight simulator pilots.</p>
-                <p class="card-text">A lot of new tools are currently being developed; please use the sugesstion Contact
-                    Us page to make suggestions and report bugs!</p>
+            <div class="card mb-3 bg-warning">
+                <div class="card-body text-center">
+                    <h5 class="card-title">About this Site</h5>
+                    <p class="card-text">This website contains some useful tools for online flight simulator pilots.</p>
+                    <p class="card-text">A lot of new tools are currently being developed; please use the sugesstion Contact
+                        Us page to make suggestions and report bugs!</p>
+                </div>
             </div>
-        </div>
 
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- 2 column for md --></div>
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- 1 column for sm --></div>
+            <div class="w-100 d-none d-md-block d-lg-none"><!-- 2 column for md --></div>
+            <div class="w-100 d-none d-sm-block d-md-none"><!-- 1 column for sm --></div>
 
-        <div class="card mb-3 text-white bg-info">
-            <div class="card-body text-center">
-                <h5 class="card-title">Join ATC-Com´s Discord Server</h5><br>
-                <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw">--><u>ATC-Com</u><--</a>
-                </h2>
-                <img src="assets/img/radar.png" alt="radar" height="50px" width="50px">
+            <div class="card mb-3 text-white bg-info">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Join ATC-Com´s Discord Server</h5><br>
+                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw">--><u>ATC-Com</u><--</a>
+                    </h2>
+                    <img src="assets/img/radar.png" alt="radar" height="50px" width="50px">
+                </div>
             </div>
-        </div>
 
-        <div class="card mb-3 text-white bg-dark">
-            <div class="card-body text-center">
-                <h5 class="card-title">Latest News</h5>
-                <p class="card-text">Thank you for all your questions about the current state of this website. We are hard at work migrating to our new domain <a href="https://aviationtools.de">aviationtools.de</a>. We ask for your understanding and patience while we get the website back into a working state.</p>
-            </div>
-            <div class="card-footer text-white text-center">
-                <u>Posted: Fri, 13 Nov 2020 14:31:12 GMT</u>
+            <div class="card mb-3 text-white bg-dark">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Latest News</h5>
+                    <p class="card-text">Thank you for all your questions about the current state of this website. We are hard at work migrating to our new domain <a href="https://aviationtools.de">aviationtools.de</a>.<br>We ask for your understanding and patience while we get the website back into a working state!</p>
+                </div>
+                <div class="card-footer text-white text-center">
+                    <u>Posted: Fri, 13 Nov 2020 14:31:12 GMT</u>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<h3>Credits</h3>
-<p class="lead">Thanks to Calum Shepherd for the frontend development and <a href="https://superananas.de/">superananas</a> for programming help.</p>
+    <h3>Credits</h3>
+    <p class="lead">Thanks to Calum Shepherd for the frontend development and <a href="https://superananas.de/">superananas</a> for programming help.</p>
+</div>
 
 <div id="snackbar"></div>
 
