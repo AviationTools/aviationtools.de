@@ -3,42 +3,41 @@
     $title = 'METAR Decoder';
     include '../assets/layout/header.php'; ?>
 
-<script src="metar.js"></script>
+<script defer src="/metar/metar.js"></script>
 
 <div class="row">
     <div class="col-md-7">
         <h1>METAR Decoder</h1>
         <h3>Aviation Weather Report Translator</h3>
 
-        <form name="encoded" class="py-3" id="metar-form">
+        <div class="py-3">
             <div class="form-group">
-                <label>Encoded METAR</label>
-                <input type="text" id="icao" placeholder="Aerodome ICAO" name="report" class="form-control" autocomplete="off">
-                <!--<textarea class="form-control" name="report" rows="3"></textarea>-->
+                <label for="icao">Encoded METAR</label>
+                <input type="text" id="icao" placeholder="Aerodrome ICAO" class="form-control" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <input class="btn btn-primary" value="Decode" name="decode" id="btn" type="button">
-                <input class="btn btn-secondary" name="reset" value="Clear" onclick="this.form.report.value=''; this.form.decreport.value='';" type="button">
+                <button class="btn btn-primary" id="decode-button">Decode</button>
+                <button class="btn btn-secondary" id="clear-button">Clear</button>
 
                 <div class="btn-group">
-                    <input class="btn btn-info" name="example1" value="Example 1" onclick="this.form.report.value='LEZL 150800Z VRB03KT 0700SW 6000E PRFG OVC009 13/13 Q1022 NOSIG'; metar_decode(this.form.report.value);" type="button">
-                    <input class="btn btn-info" name="example2" value="Example 2" onclick="this.form.report.value='LEBB 160930Z 03008KT 3000 TSGRRA SCT015TCU BKN022CB 09/06 Q0993 NOSIG'; metar_decode(this.form.report.value);" type="button">
-                    <input class="btn btn-info" name="example3" value="Example 3" onclick="this.form.report.value='EGXX 301220Z 14005KT 0450E R12/1000N DZ BCFG VV/// 08/07 Q1004 NOSIG'; metar_decode(this.form.report.value);" type="button">
-                    <input class="btn btn-info" name="example4" value="Example 4" onclick="this.form.report.value='LEST 201230Z 21010G25KT 180V250 1200SW 6000NW R17/1300U R35/P1500 +SHRA FEW010CB SCT017 BKN027 12/07 Q1002 RETS WS RWY17 BECMG FM1300 23030G40KT 7000 NSW SKC'; metar_decode(this.form.report.value);" type="button">
+                    <button class="btn btn-info metar-example" data-metar="LEZL 150800Z VRB03KT 0700SW 6000E PRFG OVC009 13/13 Q1022 NOSIG">Example 1</button>
+                    <button class="btn btn-info metar-example" data-metar="LEBB 160930Z 03008KT 3000 TSGRRA SCT015TCU BKN022CB 09/06 Q0993 NOSIG">Example 2</button>
+                    <button class="btn btn-info metar-example" data-metar="EGXX 301220Z 14005KT 0450E R12/1000N DZ BCFG VV/// 08/07 Q1004 NOSIG">Example 3</button>
+                    <button class="btn btn-info metar-example" data-metar="LEST 201230Z 21010G25KT 180V250 1200SW 6000NW R17/1300U R35/P1500 +SHRA FEW010CB SCT017 BKN027 12/07 Q1002 RETS WS RWY17 BECMG FM1300 23030G40KT 7000 NSW SKC">Example 4</button>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Decoded report</label>
-                <textarea class="form-control" name="decreport" rows="15"></textarea>
+                <label for="report-output">Decoded report</label>
+                <textarea class="form-control" id="report-output" rows="15"></textarea>
             </div>
-        </form>
+        </div>
     </div>
 
     <div class="col-md-5 pb-4">
         <div class="card">
-            <h3 class="card-header"><i class="fas fa-question-circle"></i> &nbsp;Help</h3>
+            <h3 class="card-header"><i class="fas fa-question-circle"></i>&nbsp;Help</h3>
 
             <div class="card-body">
                 <p class="card-text">
@@ -70,7 +69,7 @@
                     <ul>
                         <li><strong>will not</strong> tell you the exact weather conditions at a specific location;</li>
                         <li><strong>does not</strong> decode TAFs (aviation forecasts).</li>
-                        <li><strong>should not</strong> be used to make critical decisions, as the tool could provide false information or conflight with the actual weather.</li>
+                        <li><strong>should not</strong> be used to make critical decisions, as the tool could provide false information or conflict with the actual weather.</li>
                     </ul>
                 </p>
 

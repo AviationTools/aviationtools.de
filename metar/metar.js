@@ -1,16 +1,31 @@
 const snackbarElement = document.getElementById("snackbar");
 const icaoInputElement = document.getElementById("icao");
-const decodeButtonElement = document.getElementById("btn");
-const metarFormElement = document.getElementById("metar-form");
+const decodeButtonElement = document.getElementById("decode-button");
+const clearButtonElement = document.getElementById("clear-button");
+const reportOutputElement = document.getElementById("report-output");
+
+for (let exampleButtonElement of document.getElementsByClassName("metar-example")) {
+    exampleButtonElement.addEventListener("click", () => {
+        icaoInputElement.value = exampleButtonElement.dataset["metar"];
+
+        reportOutputElement.value = metarDecode(exampleButtonElement.dataset["metar"]);
+    });
+}
+
+clearButtonElement.addEventListener("click", function () {
+   icaoInputElement.value = "";
+   reportOutputElement.value = "";
+});
 
 // main analysis
 decodeButtonElement.addEventListener("click", function () {
-    decode();
+    fetchMetarAndDecode();
 });
 
-metarFormElement.addEventListener("submit", function (e) {
-    e.preventDefault();
-    decode();
+icaoInputElement.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+        fetchMetarAndDecode();
+    }
 });
 
 function showSnackbar(message, duration) {
@@ -22,24 +37,28 @@ function showSnackbar(message, duration) {
     }, duration);
 }
 
-async function decode() {
-    let icao = icaoInputElement.value.toUpperCase();
+async function fetchMetarAndDecode() {
+    let icao = icaoInputElement.value.split(" ")[0];
 
-    if (icao === "" || icao.length !== 4) {
-        showSnackbar("Wrong ICAO!", 3000);
+    if (icao === "") {
+        showSnackbar("No ICAO!", 3000);
+        return;
     }
 
     try {
-        const metarResponse = await fetch("https://atccom.de/api/metar/" + icao);
+        const metarResponse = await fetch(`/api/airports/${icao}/metar`);
         const metarResponseJson = await metarResponse.json();
 
         if (metarResponseJson.error) {
+            reportOutputElement.value = "";
             showSnackbar("Wrong ICAO!", 3000);
         } else {
-            metarDecode(metarResponseJson.metar);
+            reportOutputElement.value = metarDecode(metarResponseJson.metar);
+            icaoInputElement.value = metarResponseJson.metar
         }
     }
     catch (e) {
+        reportOutputElement.value = "";
         console.error("error while fetching metar", e);
         showSnackbar("Could not decode icao!", 3000);
     }
@@ -57,21 +76,21 @@ if (str) {
 
     if (objURL.icao !== "") {
         icaoInputElement.value = objURL.icao;
-        decode();
+        fetchMetarAndDecode();
     }
 }
 
-function is_num_digit(ch) {
+function isNumericDigit(ch) {
     return ((ch === '0') || (ch === '1') || (ch === '2') || (ch === '3') ||
         (ch === '4') || (ch === '5') || (ch === '6') || (ch === '7') ||
         (ch === '8') || (ch === '9'));
 }
 
-function is_alphabetic_char(ch) {
+function isAlphabeticChar(ch) {
     return ((ch >= 'A') && (ch <= 'Z'));
 }
 
-function decode_token(token) {
+function decodeToken(token) {
     let result = "";
 
     // Check if token is "calm wind"
@@ -564,6 +583,8 @@ function decode_token(token) {
         else if (myArray[3] === "8") result += "9-14 m\n";
         else if (myArray[3] === "9") result += "more than 14 m (huge!)\n";
     }
+
+    return result
 }
 
 function metarDecode(text) {
@@ -622,12 +643,12 @@ function metarDecode(text) {
 
     // Parse date-time token -- we allow time specifications without final 'Z'
     if (((arrayOfTokens[numToken].length === 7 && arrayOfTokens[numToken].charAt(6) === 'Z') || arrayOfTokens[numToken].length === 6) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(0)) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(1)) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(2)) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(3)) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(4)) &&
-        is_num_digit(arrayOfTokens[numToken].charAt(5))) {
+        isNumericDigit(arrayOfTokens[numToken].charAt(0)) &&
+        isNumericDigit(arrayOfTokens[numToken].charAt(1)) &&
+        isNumericDigit(arrayOfTokens[numToken].charAt(2)) &&
+        isNumericDigit(arrayOfTokens[numToken].charAt(3)) &&
+        isNumericDigit(arrayOfTokens[numToken].charAt(4)) &&
+        isNumericDigit(arrayOfTokens[numToken].charAt(5))) {
 
         result += "Day of month: " + arrayOfTokens[numToken].substr(0, 2) + "\n";
         result += "Time: " + arrayOfTokens[numToken].substr(2, 2) + ":" + arrayOfTokens[numToken].substr(4, 2) + " UTC";
@@ -654,9 +675,11 @@ function metarDecode(text) {
     // Parse remaining tokens
     for (let i = numToken; i < arrayOfTokens.length; i++) {
         if (arrayOfTokens[i].length > 0) {
-            result += decode_token(arrayOfTokens[i].toUpperCase());
+            result += decodeToken(arrayOfTokens[i].toUpperCase());
         } else {
             result += "Next token has 0 length\n";
         }
     }
+
+    return result;
 }
