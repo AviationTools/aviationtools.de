@@ -199,7 +199,7 @@ updateRunwayHistory();
 sendMetarButtonElement.addEventListener("click", function () {
     const icao = icaoInputElement.value;
 
-    window.open(`http://aviationtools.de/metar/?icao=${icao}`);
+    window.open(`https://aviationtools.de/metar/?icao=${icao}`);
 });
 
 function clearElements() {
