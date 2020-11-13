@@ -4,13 +4,11 @@ const timeOutputElement = document.getElementById('time');
 const analyseButtonElement = document.getElementById("alex");
 const icaoInputElement = document.getElementById("icao");
 const icaoHistoryOutputElement = document.getElementById("lasticao");
-const spinnerElement = document.getElementById("sk-fading-circle");
 const tableElement = document.getElementById("out")
 const runwayOutputElement = document.getElementById("output");
 
 const sendMetarButtonElement = document.getElementById("sendMetar");
 const compassRoseOutputElement = document.getElementById("compassrose");
-const metarOutputElement = document.getElementById("metarOutput");
 
 // Refresh button
 const refreshButtonElement = document.getElementById("refreshBtn");
@@ -59,7 +57,7 @@ function circle(metarHeading, heading, size) {
         circleConfig.radius = circleConfig.width / 2.6;
         circleConfig.center = {
             x: circleConfig.width / 2,
-            y: height / 2
+            y: circleConfig.height / 2
         };
         circleConfig.margin = 0;
     } else {
@@ -69,7 +67,7 @@ function circle(metarHeading, heading, size) {
         circleConfig.radius = circleConfig.width / 3.5;
         circleConfig.center = {
             x: circleConfig.width / 2,
-            y: height / 2
+            y: circleConfig.height / 2
         };
         circleConfig.margin = -5;
     }
@@ -136,8 +134,6 @@ async function main() {
     const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
     const runwaysResponseJson = await runwaysResponse.json();
 
-    spinnerElement.style.display = "none";
-
     loadingSpinner(true);
 
     tableElement.style.display = "flex";
@@ -149,10 +145,8 @@ async function main() {
         showSnackbar("Wrong ICAO!", 3000);
 
         runwayOutputElement.style.display = "none";
-        metarOutputElement.style.display = "none";
     } else {
         const weather = runwaysResponseJson.weather;
-        metarOutputElement.innerHTML += "<tr><td>" + weather.metar + "</td><td>" + weather.ceiling_ft + "</td><td>" + weather.visibility_statute_mi + "</td></tr>";
 
         for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
             const currentRunway = runwaysResponseJson.runways[i];
@@ -205,9 +199,6 @@ sendMetarButtonElement.addEventListener("click", function () {
 function clearElements() {
     while (runwayOutputElement.childElementCount > 0) {
         runwayOutputElement.childNodes[0].remove();
-    }
-    while (metarOutputElement.childElementCount > 0) {
-        metarOutputElement.childNodes[0].remove();
     }
     while (compassRoseOutputElement.childElementCount > 0) {
         compassRoseOutputElement.childNodes[0].remove();
