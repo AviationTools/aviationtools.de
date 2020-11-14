@@ -14,15 +14,17 @@ function showSnackbar(message, duration) {
 
 likeButtonElement.addEventListener('click', async function () {
     try {
-        const likeResponse = await fetch("assets/likes/likes.php");
+        const likeResponse = await fetch("/api/likes/", {
+            "method": "POST"
+        });
         const likeResponseJson = await likeResponse.json();
 
-        if (likeResponseJson.found) {
-            showSnackbar("You can only like once!", 3000);
-        } else {
-            likeOutputElement.innerText = likeResponseJson.number;
+        if (likeResponse.ok) {
+            likeOutputElement.innerText = likeResponseJson.likes;
 
             showSnackbar("Thank You!", 3000);
+        } else {
+            showSnackbar("You can only like once!", 3000);
         }
     }
     catch (e) {
@@ -32,10 +34,10 @@ likeButtonElement.addEventListener('click', async function () {
 
 async function updateLikes() {
     try {
-        const likeResponse = await fetch("assets/likes/getlikes.php");
-        const likeResponseCount = await likeResponse.text();
+        const likeResponse = await fetch("/api/likes/");
+        const likeResponseJson = await likeResponse.json();
 
-        likeOutputElement.innerText = JSON.parse(likeResponseCount);
+        likeOutputElement.innerText = likeResponseJson.likes;
         likeOutputElement.style.display = "block";
     }
     catch (e) {
