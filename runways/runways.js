@@ -130,7 +130,6 @@ async function main() {
     }
 
     const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
-    const runwaysResponseJson = await runwaysResponse.json();
 
     await updateRunwayHistory();
     loadingSpinner(true);
@@ -138,11 +137,10 @@ async function main() {
     tableElement.style.display = "flex";
     sendMetarButtonElement.style.display = "block";
 
-    if (runwaysResponseJson.error) {
-        showSnackbar("Wrong ICAO!", 3000);
+    if (runwaysResponse.ok) {
+        runwayOutputElement.style.display = "table-row-group";
 
-        runwayOutputElement.style.display = "none";
-    } else {
+        const runwaysResponseJson = await runwaysResponse.json();
         const weather = runwaysResponseJson.weather;
 
         for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
@@ -163,13 +161,17 @@ async function main() {
             tr.appendChild(td);
             runwayOutputElement.appendChild(tr);
         }
+
+        let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
+        let rwy1 = runwaysResponseJson.runways[0].heading;
+
+        let svg = circle(metarHeading, rwy1, 1);
+        compassRoseOutputElement.appendChild(svg);
+    } else {
+        showSnackbar("Could not load runway information for ICAO", 3000);
+
+        runwayOutputElement.style.display = "none";
     }
-
-    let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
-    let rwy1 = runwaysResponseJson.runways[0].heading;
-
-    let svg = circle(metarHeading, rwy1, 1);
-    compassRoseOutputElement.appendChild(svg);
 }
 
 // Aerodrome history
