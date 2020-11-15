@@ -1,32 +1,29 @@
 <urlset>
     <url>
-        <loc>https://atccom.de/index.php</loc>
+        <loc>https://runwaytools.de/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/sidstar.php</loc>
+        <loc>https://runwaytools.de/about/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/atc/index.html</loc>
+        <loc>https://runwaytools.de/atc/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/runways/index.html</loc>
+        <loc>https://runwaytools.de/game/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/profile/index.html</loc>
+        <loc>https://runwaytools.de/metar/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/documentation/index.html</loc>
+        <loc>https://runwaytools.de/notams/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/contact/index.html</loc>
+        <loc>https://runwaytools.de/privacy/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/metar/index.html</loc>
+        <loc>https://runwaytools.de/runways/</loc>
     </url>
     <url>
-        <loc>https://atccom.de/notams/index.html</loc>
-    </url>
-    <url>
-        <loc>https://atccom.de/privacy/index.html</loc>
+        <loc>https://runwaytools.de/sidstar/</loc>
     </url>
 </urlset>
