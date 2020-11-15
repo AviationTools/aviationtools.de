@@ -2,6 +2,7 @@
     $page = 'sidstar';
     $title = 'Sid/Star Analysis';
     include '../assets/layout/header.php'; ?>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
       integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
       crossorigin="" />
@@ -21,7 +22,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1 id="h1"></h1>
-                <h3>Standard Deparure & Arrival Routes</h3>
+                <h3>Standard Departure & Arrival Routes</h3>
                 <div class="form-row mt-3">
                     <div class="form-group col">
                         <div class="row">
@@ -154,7 +155,7 @@
                     At bigger airports pilots, follow so-called Arrival/Departure routes to safely be guided to or from
                     the airport and avoid obstacles and other terrain. Important to know is that, not every aerodrome
                     has these procedures! In the United States they almost dont use Standard Instrument Departure
-                    Routes, for more Information check out <a href="https://atccom.de/atc/"" class="btn btn-primary
+                    Routes, for more Information check out <a href="/atc/"" class="btn btn-primary
                     btn-sm" role="button" aria-disabled="true">ATC Comms <i class="fas fa-broadcast-tower"></i></a>
                     </p>
                     <p class="card-text">
@@ -162,7 +163,7 @@
                     <ul>
                         <li>
                             <dt>"Correct Runway"</dt>
-                            will use the runway analyze tool on "ATC-Com" and provide the correct runway at the specific
+                            will use the runway analyze tool on "Aviation Tools" and provide the correct runway at the specific
                             aerodrome, based on the weather information and many more factors.
                         </li>
                         <li>
@@ -182,7 +183,7 @@
                     <ul>
                         <li>
                             <dt>"Correct Runway"</dt>
-                            will use the runway analyze tool on "ATC-Com" and provide the correct runway at the specific
+                            will use the runway analyze tool on "Aviation Tools" and provide the correct runway at the specific
                             aerodrome based on the weather information and many more factors.
                         </li>
                         <li>
@@ -211,7 +212,7 @@
                         <dt>Flight Level (only available with SID)</dt>
                         The flight level gets calculated through the so called "Semicircular Rule". This basically lets
                         you know if the flight level you will be choosing is going to be even or odd e.g (Odd => FL350
-                        || Even => FL380). This lets aircrafts safely be seperated when coming from opposite directions.
+                        || Even => FL380). This lets aircraft safely be separated when coming from opposite directions.
                         <dd>Track in (degrees)</dd>
                         The track gets measured by the last waypoints (Sid) or the first waypoints (Star).
                         <dt>Track HDG</dt>

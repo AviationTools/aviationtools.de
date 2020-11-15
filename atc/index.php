@@ -155,7 +155,7 @@
     <!-- Different kind of Phrasology -->
     <div class="col-md-5 pb-4" id="helpBox2" style="display: none;">
         <div class="card">
-            <h3 class="card-header"><i class="fab fa-avianex"></i> &nbsp;Different Departures</h3>
+            <h3 class="card-header"><i class="fab fa-avianex"></i>&nbsp;Different Departures</h3>
             <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
                     <a class="nav-link active" href="#" id="normalHelp">General</a>
@@ -165,44 +165,48 @@
                 </li>
             </ul>
             <div class="card-body">
-                <h5 class="card-title"><u>If Approach Controller Is On-Line</u></h5>
-                <p><b>No Standard Instrument Departure (SID)</b></p>
-                <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
-                    IFR clearance to Miami International airport.</p>
-                <p>Controller: Delta59, Newark clearance Delivery, Cleared to Miami International airport
-                    via radar vectors to COL VOR, then as filed, maintain 8,000, expect fl180 one zero
-                    minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
+                <p>
+                    <h5 class="card-title"><u>If Approach Controller Is On-Line</u></h5>
+                    <p><b>No Standard Instrument Departure (SID)</b></p>
+                    <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
+                        IFR clearance to Miami International airport.</p>
+                    <p>Controller: Delta59, Newark clearance Delivery, Cleared to Miami International airport
+                        via radar vectors to COL VOR, then as filed, maintain 8,000, expect fl180 one zero
+                        minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
+                </p>
+                <p>
+                    <p><b>Standard Instrument Departure (SID) & No Altitude Restrictions</b></p>
+                    <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request IFR
+                        clearance to Miami International airport.</p>
+                    <p>Controller: Delta59, Newark clearance delivery, Cleared to Miami International
+                        Airport, KENNEDY4 Departure, climb via the SID, expect FL 220 one zero minutes after departure,
+                        Departure frequency 128.15, Squawk 2523.</p>
+                </p>
+                <p>
+                    <p><b>Standard Instrument Departure (SID) & With Altitude Restrictions</b></p>
+                    <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
+                        IFR clearance to Miami International airport.</p>
+                    <p>Controller: Delta59, Newark clearance delivery, Cleared to Miami International
+                        Airport, KENNEDY4 Departure, climb via the SID, except maintain 8,000, expect FL 220 one zero
+                        minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
+                </p>
+                <p>
+                    <p><b>Radar Vectored Departure</b></p>
+                    <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
+                        IFR clearance to Miami International airport.</p>
+                    <p>Controller: Delta59, Newark delivery, Cleared to Miami International Airport,
+                        KENNEDY4 Departure, Radar Vectors COL VOR, maintain 8,000, expect FL 220
+                        one zero minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
+                </p>
+                <p>
+                    <p><b>Radar Vectored Departure with published climb procedures</b></p>
+                    <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
+                        IFR clearance to Miami International airport.
+                    <p>Controller: Delta59, Newark delivery, Cleared to Miami International Airport,
+                        KENNEDY4 Departure, Canarsie Climb, Radar Vectors WHITE, maintain 8,000, expect FL 220
+                        one zero minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
+                </p>
             </div>
-            <div>
-                <p><b>Standard Instrument Departure (SID) & No Altitude Restrictions</b></p>
-                <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request IFR
-                    clearance to Miami International airport.</p>
-                <p>Controller: Delta59, Newark clearance delivery, Cleared to Miami International
-                    Airport, KENNEDY4 Departure, climb via the SID, expect FL 220 one zero minutes after departure,
-                    Departure frequency 128.15, Squawk 2523.</p>
-            </div>
-            <div>
-                <p><b>Standard Instrument Departure (SID) & With Altitude Restrictions</b></p>
-                <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
-                    IFR clearance to Miami International airport.</p>
-                <p>Controller: Delta59, Newark clearance delivery, Cleared to Miami International
-                    Airport, KENNEDY4 Departure, climb via the SID, except maintain 8,000, expect FL 220 one zero
-                    minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
-            </div>
-            <div>
-                <p><b>Radar Vecotored Departure</b></p>
-                <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
-                    IFR clearance to Miami International airport.</p>
-                <p>Controller: Delta59, Newark delivery, Cleared to Miami International Airport,
-                    KENNEDY4 Departure, Radar Vectors COL VOR, maintain 8,000, expect FL 220
-                    one zero minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
-            </div>
-            <p><b>Radar Vecotored Departure with published climb procedures</b></p>
-            <p>Pilot: Clearance Delivery, good day, this is Delta59 with information Bravo, request
-                IFR clearance to Miami International airport.
-            <p>Controller: Delta59, Newark delivery, Cleared to Miami International Airport,
-                KENNEDY4 Departure, Canarsie Climb, Radar Vectors WHITE, maintain 8,000, expect FL 220
-                one zero minutes after departure, Departure frequency 128.15, Squawk 2523.</p>
         </div>
     </div>
 </div>

@@ -1,12 +1,12 @@
 <?php
     $page = 'home';
-    $title = 'ATC-Com';
+    $title = 'Aviation Tools';
     include 'assets/layout/header.php'; ?>
 
 <script defer src="index.js"></script>
 
 <div class="text-center">
-    <h1 class="display-3">ATC-Com</h1>
+    <h1 class="display-3">Aviation Tools</h1>
 
     <div class="jumbotron my-4 mx-auto w-75">
         <h1>What do you want to do?</h1>

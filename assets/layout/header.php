@@ -47,7 +47,7 @@
         <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
             <a class="navbar-brand" href="/">
                 <img src="/assets/img/radar.png" width="30px" height="30px" class="d-inline-block align-top">
-                ATC-Com
+                Aviation Tools
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
