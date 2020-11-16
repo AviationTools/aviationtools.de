@@ -26,18 +26,16 @@
                 <div class="form-row mt-3">
                     <div class="form-group col">
                         <div class="row">
-                            <input type="text" name="icao" id="icao" placeholder="Aerodome ICAO"
-                                   class="form-control w-25 mx-3">
+                            <input type="text" name="icao" id="icao" placeholder="Aerodome ICAO" class="form-control w-25 mx-3">
                             <div>
                                 <button name="checkbox" type="button" class="btn btn-primary mx-1" id="sid">SID</button>
                             </div>
                             <div>
-                                <button name="checkbox" type="button" class="btn btn-primary mx-1" id="star">STAR
-                                </button>
+                                <button name="checkbox" type="button" class="btn btn-primary mx-1" id="star">STAR</button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6" style="display: none;">
+                            <div class="col-md-6 options" style="display: none;">
                                 <div>
                                     <label class="d-inline">
                                         <button name="checkbox" type="button" class="btn btn-outline-success my-1"
@@ -57,7 +55,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-6" style="display: none;">
+                            <div class="col-md-6 options" style="display: none;">
                                 <div>
                                     <label class="d-inline">
                                         <button name="checkbox" type="button" class="btn btn-outline-dark my-1"
@@ -149,34 +147,33 @@
                         This tool will provide Standard Instrument Departure Routes & Standard Arrival Routes for any
                         airport with these capabilities. To see the routes, type the four-letter ICAO code for the
                         aerodrome into the text box and choose between "SID" or "STAR".
-                        <u>The information will be given in a table, <b>click</b> into the rows to get the procedure
-                            displayed into the map</u>.
-                    <h5 class="card-title">Why?</h5>
-                    At bigger airports pilots, follow so-called Arrival/Departure routes to safely be guided to or from
-                    the airport and avoid obstacles and other terrain. Important to know is that, not every aerodrome
-                    has these procedures! In the United States they almost dont use Standard Instrument Departure
-                    Routes, for more Information check out <a href="/atc/"" class="btn btn-primary
-                    btn-sm" role="button" aria-disabled="true">ATC Comms <i class="fas fa-broadcast-tower"></i></a>
+                        <u>The information will be given in a table, <b>click</b> into the rows to get the procedure displayed into the map</u>.
+                        <h5 class="card-title">Why?</h5>
+                        At bigger airports pilots, follow so-called Arrival/Departure routes to safely be guided to or from
+                        the airport and avoid obstacles and other terrain. Important to know is that, not every aerodrome
+                        has these procedures! In the United States they almost dont use Standard Instrument Departure
+                        Routes, for more Information check out
+                        <a href="/atc/" class="btn btn-primary btn-sm" role="button" aria-disabled="true">ATC Comms <i class="fas fa-broadcast-tower"></i></a>
                     </p>
                     <p class="card-text">
                         <u>If you choose the "SID" button. More options will be available:</u>
-                    <ul>
-                        <li>
-                            <dt>"Correct Runway"</dt>
-                            will use the runway analyze tool on "Aviation Tools" and provide the correct runway at the specific
-                            aerodrome, based on the weather information and many more factors.
-                        </li>
-                        <li>
-                            <dt>"Choose Runway"</dt>
-                            will let you choose the desired runway for takeoff.
-                        </li>
-                        <br>
-                        <li>
-                            <dt>"Departure Selection"</dt>
-                            will show a compass. The buttons in the compass will draw a line in the direction you would
-                            like to fly to, also known as "Track".
-                        </li>
-                    </ul>
+                        <ul>
+                            <li>
+                                <dt>"Correct Runway"</dt>
+                                will use the runway analyze tool on "Aviation Tools" and provide the correct runway at the specific
+                                aerodrome, based on the weather information and many more factors.
+                            </li>
+                            <li>
+                                <dt>"Choose Runway"</dt>
+                                will let you choose the desired runway for takeoff.
+                            </li>
+                            <br>
+                            <li>
+                                <dt>"Departure Selection"</dt>
+                                will show a compass. The buttons in the compass will draw a line in the direction you would
+                                like to fly to, also known as "Track".
+                            </li>
+                        </ul>
                     </p>
                     <p class="card-text">
                         <u>If you choose the "STAR" button. More options will be available:</u>

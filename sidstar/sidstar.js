@@ -1,48 +1,60 @@
-var compass = document.getElementById("compass");
-var output = document.getElementById("output");
-var SidOutput = document.getElementById("SidOutput");
-let runwaySelection = document.getElementById("runwaySelection");
-let departureSelection = document.getElementById("departureSelection");
-let runway = document.getElementById("runway");
-var radioSVG = document.getElementsByName("GroupSvg");
-var snackbar = document.getElementById("snackbar");
-var submit = document.getElementById("submit");
-var tableConfig = document.getElementById("tableConfig");
-var runwayTable = document.getElementById("runwayTable");
-var activeRunway = document.getElementById("activeRunway");
-var sidbtn = document.getElementById("sid");
-var starbtn = document.getElementById("star");
-var options = document.getElementsByName("options");
+const compass = document.getElementById("compass");
+const output = document.getElementById("output");
+const SidOutput = document.getElementById("SidOutput");
+const runwaySelection = document.getElementById("runwaySelection");
+const departureSelection = document.getElementById("departureSelection");
+const runway = document.getElementById("runway");
+const radioSVG = document.getElementsByName("GroupSvg");
+const submit = document.getElementById("submit");
+const tableConfig = document.getElementById("tableConfig");
+const runwayTable = document.getElementById("runwayTable");
+const activeRunway = document.getElementById("activeRunway");
+const sidbtn = document.getElementById("sid");
+const starbtn = document.getElementById("star");
+const options = document.getElementsByClassName("options");
 
-var toggle = document.getElementById("toggle");
-var approach = document.getElementById("approach");
-var appDiv = document.getElementById("appDiv");
-var condition = true;
-var appCondition = false;
-var label = document.getElementById("label");
-var h1 = document.getElementById("h1");
+const approach = document.getElementById("approach");
+const appDiv = document.getElementById("appDiv");
+const label = document.getElementById("label");
+const h1 = document.getElementById("h1");
 h1.innerHTML = "SID Analysis";
 label.innerHTML = " Departure Selection";
 
+const icaoInputElement = document.getElementById("icao");
 
-var globalArray = {};
-var icao = "";
-var firstPoint = [];
-var layer = null;
-var latlngs = [];
-var appLatlngs = [];
-var marker = [];
-var polyline = [];
-var appPolyline = [];
-var temp = null;
-var globalApp = [];
-var goAroundMarker = [];
-var goAroundLatlngs = [];
-var goAroundPolyline = [];
-var holding = [];
+// Snackbar
+const snackbarElement = document.getElementById("snackbar");
+function showSnackbar(message, duration) {
+    snackbarElement.innerText = message;
+    console.log(message);
+
+    snackbarElement.classList.add("show");
+    setTimeout(function () {
+        snackbarElement.classList.remove("show");
+    }, duration);
+}
+
+// Global variables
+let globalArray = {};
+let icao = "";
+let firstPoint = [];
+let layer = null;
+let latLngs = [];
+let appLatLngs = [];
+let marker = [];
+let polyline = [];
+let appPolyline = [];
+let temp = null;
+let globalApp = [];
+let goAroundMarker = [];
+let goAroundLatLngs = [];
+let goAroundPolyline = [];
+let holding = [];
+let showSidsElseStar = true;
+let appCondition = false;
 createTable();
 
-$('#approach').change(function () {
+approach.addEventListener("change", function () {
     if (approach.checked) {
         appCondition = true;
         createTable();
@@ -50,13 +62,13 @@ $('#approach').change(function () {
         appCondition = false;
         createTable();
     }
-});
+})
 
 sidbtn.addEventListener("click", function () {
     clearAll();
     options[0].style.display = "block";
     options[1].style.display = "block";
-    condition = true;
+    showSidsElseStar = true;
     createTable();
     h1.innerText = "SID Analysis";
     label.innerHTML = " Departure Selection";
@@ -67,63 +79,77 @@ starbtn.addEventListener("click", function () {
     clearAll();
     options[0].style.display = "block";
     options[1].style.display = "block";
-    condition = false;
+    showSidsElseStar = false;
     createTable();
     h1.innerText = "STAR Analysis";
     label.innerHTML = " Approach Selection";
     appDiv.style.display = "block";
 })
 
-
-function inputCheck(callback) {
-    if (document.getElementById("icao").value == "") {
-        snackbar.innerHTML = "No ICAO!";
-        snackbar.className = "show";
-        setTimeout(function () {
-            snackbar.className = snackbar.className.replace("show", "");
-        }, 3000);
+async function checkInputAndGetRunways() {
+    if (icaoInputElement.value === "") {
+        throw Error("No ICAO!");
     } else {
-        if (latlngs.length > 0 || firstPoint.length > 0) {
+        if (latLngs.length > 0 || firstPoint.length > 0) {
             deleteMapElements();
             clearAll();
         }
-        changeAirport(document.getElementById("icao").value);
+        await changeAirport(icaoInputElement.value);
         clearTable();
-        let icao = document.getElementById("icao").value;
-        getRunwayData(icao, function (resultRwy) {
-            temp = resultRwy;
-            if (temp.error) {
-                snackbar.innerHTML = "Wrong ICAO!";
-                snackbar.className = "show";
-                setTimeout(function () {
-                    snackbar.className = snackbar.className.replace("show", "");
-                }, 3000);
-            }
+
+        let icao = icaoInputElement.value;
+        try {
+            const runways = await getRunwayData(icao);
+
             while (runwayTable.childElementCount > 0) {
                 runwayTable.childNodes[0].remove();
             }
-            callback(resultRwy);
-        })
+
+            return runways;
+        }
+        catch {
+            throw Error("Could not get runways for ICAO!");
+        }
     }
 }
 
-runwaySelection.addEventListener("click", function () {
-    inputCheck(function (temp) {
+runwaySelection.addEventListener("click", async function () {
+    try {
+        const runways = await checkInputAndGetRunways();
+
         output.style.display = "block";
         clearElements();
-        for (i = 0; i < temp.runways.length; i++) {
-            let tr = document.createElement("tr");
-            let td1 = document.createElement("td");
-            let td2 = document.createElement("td");
-            let td3 = document.createElement("td");
+
+        for (let runway of runways) {
+        // for (let i = 0; i < runways.length; i++) {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            const td2 = document.createElement("td");
+            const td3 = document.createElement("td");
 
             td1.classList.add("align-middle");
             td2.classList.add("align-middle");
             td3.classList.add("align-middle");
 
-            td1.innerText += temp.runways[i].name;
-            td2.innerText += temp.runways[i].length_m;
-            td3.innerHTML += '<input type="radio" name="GroupRadio" style="margin-right:10px;" id="' + i + '">';
+            td1.innerText += runway.name;
+            td2.innerText += runway.length_m;
+
+            const inputElement = document.createElement("input");
+            inputElement.setAttribute("type", "radio");
+            inputElement.setAttribute("name", "GroupRadio");
+            inputElement.setAttribute("style", "margin-right:10px;");
+            inputElement.addEventListener("change", () => {
+                clearTable();
+
+                if (inputElement.checked) {
+                    if (showSidsElseStar) {
+                        sidDeparture(runway.name, icaoInputElement.value);
+                    } else {
+                        starArrival(runway.name, icaoInputElement.value);
+                    }
+                }
+            });
+            td3.appendChild(inputElement);
 
             tr.appendChild(td1);
             tr.appendChild(td2);
@@ -131,115 +157,102 @@ runwaySelection.addEventListener("click", function () {
 
             runwayTable.appendChild(tr);
         }
-        var radioBtns = document.getElementsByName('GroupRadio');
-        for (var i = 0; i < radioBtns.length; i++) {
-            radioBtns[i].addEventListener("change", function () {
-                clearTable();
-                for (var j = 0; radioBtns.length; j++) {
-                    if (document.getElementById(j).checked) {
-                        if (condition) {
-                            sidDeparture(temp.runways[j].name, document.getElementById("icao").value);
-                        } else {
-                            starArrival(temp.runways[j].name, document.getElementById("icao").value);
-                        }
-                    }
-                }
-            })
-        }
-    })
+    }
+    catch (e) {
+        showSnackbar(e, 3000);
+    }
 });
 
-departureSelection.addEventListener("click", function () {
+departureSelection.addEventListener("click", async function () {
     output.style.display = "none";
-    inputCheck(function (temp) {
-        clearElements()
-        circleSvg();
-        for (var i = 0; i < radioSVG.length; i++) {
-            radioSVG[i].addEventListener("change", function () {
-                for (i = 0; i < temp.runways.length; i++) {
-                    if (condition) {
-                        departureSelectionSid(temp.runways[i].name, document.getElementById("icao").value);
-                    } else {
-                        departureSelectionStar(temp.runways[i].name, document.getElementById("icao").value);
-                    }
-                }
-            })
-        }
-    })
-});
 
-runway.addEventListener("click", function () {
-    output.style.display = "none";
-    if (condition) {
-        inputCheck(function (temp) {
-            clearElements()
-            activeRunwayh3(temp);
-            sidDeparture(temp.runways[0].name, document.getElementById("icao").value);
-        })
-    } else {
-        inputCheck(function (temp) {
-            clearElements()
-            activeRunwayh3(temp)
-            starArrival(temp.runways[0].name, document.getElementById("icao").value);
+    const runways = await checkInputAndGetRunways();
+
+    clearElements();
+    circleSvg();
+    for (let i = 0; i < radioSVG.length; i++) {
+        radioSVG[i].addEventListener("change", function () {
+            for (i = 0; i < runways.length; i++) {
+                if (showSidsElseStar) {
+                    departureSelectionSid(runways[i].name, icaoInputElement.value);
+                } else {
+                    departureSelectionStar(runways[i].name, icaoInputElement.value);
+                }
+            }
         })
     }
 });
 
-function departureSelectionSid(runway, icao) {
-    clearTable();
-    var north = document.getElementById("north");
-    var west = document.getElementById("west");
-    var south = document.getElementById("south");
-    var southeast = document.getElementById("southeast");
-    var southwest = document.getElementById("southwest");
-    var northwest = document.getElementById("northwest");
-    var northeast = document.getElementById("northeast");
-    var east = document.getElementById("east");
+runway.addEventListener("click", async function () {
+    output.style.display = "none";
 
-    getSidData(runway, icao, function (array) {
-        for (let sid in array) {
-            globalArray[sid] = array[sid];
+    if (showSidsElseStar) {
+        const runways = await checkInputAndGetRunways();
+        clearElements()
+        activeRunwayh3(runways[0]);
+        sidDeparture(runways[0].name, icaoInputElement.value);
+    } else {
+        const runways = await checkInputAndGetRunways();
+
+        clearElements();
+        activeRunwayh3(runways[0]);
+        starArrival(runways[0].name, icaoInputElement.value);
+    }
+});
+
+async function departureSelectionSid(runway, icao) {
+    clearTable();
+    let north = document.getElementById("north");
+    let west = document.getElementById("west");
+    let south = document.getElementById("south");
+    let southeast = document.getElementById("southeast");
+    let southwest = document.getElementById("southwest");
+    let northwest = document.getElementById("northwest");
+    let northeast = document.getElementById("northeast");
+    let east = document.getElementById("east");
+
+    const sids = await getSidData(runway, icao);
+
+    for (let sid in sids) {
+        globalArray[sid] = sids[sid];
+    }
+
+    for (let sid in sids) {
+        if (north.checked && sids[sid].track === "North Departure") {
+            compassLine(360);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (west.checked && sids[sid].track === "West Departure") {
+            compassLine(270);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (south.checked && sids[sid].track === "South Departure") {
+            compassLine(180);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (southeast.checked && sids[sid].track === "South East Departure") {
+            compassLine(135);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (southwest.checked && sids[sid].track === "South West Departure") {
+            compassLine(225);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (northwest.checked && sids[sid].track === "North West Departure") {
+            compassLine(315);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (northeast.checked && sids[sid].track === "North East Departure") {
+            compassLine(45);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else if (east.checked && sids[sid].track === "East Departure") {
+            compassLine(90);
+            departureCompass(sid, sids[sid].runway, sids[sid].fight_level, sids[sid].track_heading, sids[sid].track, sids[sid].waypoints);
+        } else {
+            // console.log("Looping!");
         }
-        for (var sid in array) {
-            if (north.checked && array[sid].track == "North Departure") {
-                compassLine(360);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (west.checked && array[sid].track == "West Departure") {
-                compassLine(270);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (south.checked && array[sid].track == "South Departure") {
-                compassLine(180);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (southeast.checked && array[sid].track == "South East Departure") {
-                compassLine(135);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (southwest.checked && array[sid].track == "South West Departure") {
-                compassLine(225);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (northwest.checked && array[sid].track == "North West Departure") {
-                compassLine(315);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (northeast.checked && array[sid].track == "North East Departure") {
-                compassLine(45);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else if (east.checked && array[sid].track == "East Departure") {
-                compassLine(90);
-                departureCompass(sid, array[sid].runways, array[sid].flevel, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
-            } else {
-                // console.log("Looping!");
-            }
-        }
-        if (document.getElementsByClassName("tr-data").length <= 0) {
-            snackbar.innerHTML = "This Runway Does Not Have A SID Departure!";
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
-        }
-    });
+    }
+
+    if (document.getElementsByClassName("tr-data").length <= 0) {
+        showSnackbar("This Runway Does Not Have A SID Departure!", 3000);
+    }
 }
 
-function departureCompass(sid, runways, flevel, trackHdg, track, waypoints) {
+function departureCompass(sid, runways, fight_level, track_heading, track, waypoints) {
     let tr = document.createElement("tr");
     let th = document.createElement("th");
     let td1 = document.createElement("td");
@@ -264,15 +277,15 @@ function departureCompass(sid, runways, flevel, trackHdg, track, waypoints) {
 
     th.innerText += sid;
     td1.innerText += runways;
-    td2.innerText += flevel;
-    td3.innerText += trackHdg;
+    td2.innerText += fight_level;
+    td3.innerText += track_heading;
     td4.innerText += track;
-    if (condition) {
-        for (var i = 0; i < waypoints.length; i++) {
-            if (waypoints.length - 1 == i) {
-                td5.innerText += waypoints[i].wypname;
+    if (showSidsElseStar) {
+        for (let i = 0; i < waypoints.length; i++) {
+            if (waypoints.length - 1 === i) {
+                td5.innerText += waypoints[i].name;
             } else {
-                td5.innerText += waypoints[i].wypname + "=>";
+                td5.innerText += waypoints[i].name + "=>";
             }
         }
     }
@@ -286,7 +299,7 @@ function departureCompass(sid, runways, flevel, trackHdg, track, waypoints) {
     SidOutput.appendChild(tr);
 }
 
-function arrivalCompass(sid, runways, trackHdg, track, waypoints) {
+function arrivalCompass(sid, runways, track_heading, track, waypoints) {
     let tr = document.createElement("tr");
     let th = document.createElement("th");
     let td1 = document.createElement("td");
@@ -306,23 +319,23 @@ function arrivalCompass(sid, runways, trackHdg, track, waypoints) {
 
     th.innerText += sid;
     td1.innerText += runways;
-    td2.innerText += trackHdg;
+    td2.innerText += track_heading;
     td3.innerText += track;
 
     if (!appCondition) {
-        for (var i = 0; i < waypoints.length; i++) {
-            if (waypoints.length - 1 == i) {
-                td4.innerText += waypoints[i].wypname;
+        for (let i = 0; i < waypoints.length; i++) {
+            if (waypoints.length - 1 === i) {
+                td4.innerText += waypoints[i].name;
             } else {
-                td4.innerText += waypoints[i].wypname + "=>";
+                td4.innerText += waypoints[i].name + "=>";
             }
         }
     }
 
     if (appCondition) {
-        getAppData(runways, document.getElementById("icao").value, function (appArray) {
+        getAppData(runways, icaoInputElement.value, function (appArray) {
             globalApp = appArray;
-            for (var app in appArray) {
+            for (let app in appArray) {
                 let tr = document.createElement("tr");
                 let td1 = document.createElement("td");
                 let td2 = document.createElement("td");
@@ -360,77 +373,68 @@ function arrivalCompass(sid, runways, trackHdg, track, waypoints) {
 }
 
 
-function sidDeparture(runway, icao) {
-    getSidData(runway, icao, function (array) {
-        if (array == 400) {
-            snackbar.innerHTML = "This Runway Does Not Have A SID Departure!";
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
-        }
-        globalArray = array;
-        for (var sid in array) {
-            let tr = document.createElement("tr");
-            let th = document.createElement("th");
-            let td1 = document.createElement("td");
-            let td2 = document.createElement("td");
-            let td3 = document.createElement("td");
-            let td4 = document.createElement("td");
-            let td5 = document.createElement("td");
+async function sidDeparture(runway, icao) {
+    const sids = await getSidData(runway, icao);
 
-            tr.classList.add("tr-data");
-            th.classList.add("align-middle");
-            td1.classList.add("align-middle");
-            td2.classList.add("align-middle");
-            td3.classList.add("align-middle");
-            td4.classList.add("align-middle");
-            td5.classList.add("align-middle");
+    if (sids === 400) {
+        showSnackbar("This Runway Does Not Have A SID Departure!", 3000);
+    }
+    globalArray = sids;
+    for (let sid in sids) {
+        let tr = document.createElement("tr");
+        let th = document.createElement("th");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+        let td5 = document.createElement("td");
 
-            tr.addEventListener("click", tableEvent);
-            tr.setAttribute("id", sid);
+        tr.classList.add("tr-data");
+        th.classList.add("align-middle");
+        td1.classList.add("align-middle");
+        td2.classList.add("align-middle");
+        td3.classList.add("align-middle");
+        td4.classList.add("align-middle");
+        td5.classList.add("align-middle");
 
-            th.innerText += sid;
-            td1.innerText += array[sid].runways;
-            td2.innerText += array[sid].flevel;
-            td3.innerText += array[sid].trackHdg;
-            td4.innerText += array[sid].track;
-            for (var i = 0; i < array[sid].waypoints.length; i++) {
-                if (i == 5 || i == 10) {
-                    td5.innerHTML += "<br>";
-                }
-                if (array[sid].waypoints.length - 1 == i) {
-                    td5.innerHTML += array[sid].waypoints[i].wypname;
-                } else {
-                    td5.innerHTML += array[sid].waypoints[i].wypname + "=>";
-                }
+        tr.addEventListener("click", tableEvent);
+        tr.setAttribute("id", sid);
+
+        th.innerText += sid;
+        td1.innerText += sids[sid].runway;
+        td2.innerText += sids[sid].fight_level;
+        td3.innerText += sids[sid].track_heading;
+        td4.innerText += sids[sid].track;
+        for (let i = 0; i < sids[sid].waypoints.length; i++) {
+            if (i === 5 || i === 10) {
+                td5.innerHTML += "<br>";
             }
-
-
-            tr.appendChild(th);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            SidOutput.appendChild(tr);
+            if (sids[sid].waypoints.length - 1 === i) {
+                td5.innerHTML += sids[sid].waypoints[i].name;
+            } else {
+                td5.innerHTML += sids[sid].waypoints[i].name + "=>";
+            }
         }
-    });
-};
+
+        tr.appendChild(th);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        SidOutput.appendChild(tr);
+    }
+}
 
 function starArrival(runway, icao) {
     getStarData(runway, icao, function (starArray) {
-        if (starArray == 400) {
-            snackbar.innerHTML = "This Runway Does Not Have A STAR Departure!";
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
+        if (starArray === 400) {
+            showSnackbar("This Runway Does Not Have A STAR Departure!", 3000);
         }
         globalArray = starArray;
         getAppData(runway, icao, function (appArray) {
             globalApp = appArray;
-            for (var star in globalArray) {
+            for (let star in globalArray) {
                 let tr = document.createElement("tr");
                 let th = document.createElement("th");
                 let td1 = document.createElement("td");
@@ -449,23 +453,23 @@ function starArrival(runway, icao) {
                 tr.setAttribute("id", star);
 
                 th.innerText += star;
-                td1.innerText += globalArray[star].runways;
-                td2.innerText += globalArray[star].trackHdg;
+                td1.innerText += globalArray[star].runway;
+                td2.innerText += globalArray[star].track_heading;
                 td3.innerText += globalArray[star].track;
                 if (!appCondition) {
-                    for (var i = 0; i < globalArray[star].waypoints.length; i++) {
-                        if (i == 5 || i == 10) {
+                    for (let i = 0; i < globalArray[star].waypoints.length; i++) {
+                        if (i === 5 || i === 10) {
                             td4.innerHTML += "<br>";
                         }
-                        if (globalArray[star].waypoints.length - 1 == i) {
-                            td4.innerHTML += globalArray[star].waypoints[i].wypname;
+                        if (globalArray[star].waypoints.length - 1 === i) {
+                            td4.innerHTML += globalArray[star].waypoints[i].name;
                         } else {
-                            td4.innerHTML += globalArray[star].waypoints[i].wypname + "=>";
+                            td4.innerHTML += globalArray[star].waypoints[i].name + "=>";
                         }
                     }
                 }
                 if (appCondition) {
-                    for (var app in appArray) {
+                    for (let app in appArray) {
                         let tr = document.createElement("tr");
                         let td1 = document.createElement("td");
                         let td2 = document.createElement("td");
@@ -503,91 +507,84 @@ function starArrival(runway, icao) {
             }
         });
     });
-};
+}
 
 function departureSelectionStar(runway, icao) {
     clearTable();
-    var north = document.getElementById("north");
-    var west = document.getElementById("west");
-    var south = document.getElementById("south");
-    var southeast = document.getElementById("southeast");
-    var southwest = document.getElementById("southwest");
-    var northwest = document.getElementById("northwest");
-    var northeast = document.getElementById("northeast");
-    var east = document.getElementById("east");
+    let north = document.getElementById("north");
+    let west = document.getElementById("west");
+    let south = document.getElementById("south");
+    let southeast = document.getElementById("southeast");
+    let southwest = document.getElementById("southwest");
+    let northwest = document.getElementById("northwest");
+    let northeast = document.getElementById("northeast");
+    let east = document.getElementById("east");
 
     getStarData(runway, icao, function (array) {
 
         for (let sid in array) {
             globalArray[sid] = array[sid];
         }
-        for (var sid in array) {
+        for (let sid in array) {
             if (north.checked && array[sid].track == "North Arrival") {
                 compassLine(360);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (west.checked && array[sid].track == "West Arrival") {
                 compassLine(270);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (south.checked && array[sid].track == "South Arrival") {
                 compassLine(180);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (southeast.checked && array[sid].track == "South East Arrival") {
                 compassLine(135);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (southwest.checked && array[sid].track == "South West Arrival") {
                 compassLine(225);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (northwest.checked && array[sid].track == "North West Arrival") {
                 compassLine(315);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (northeast.checked && array[sid].track == "North East Arrival") {
                 compassLine(45);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else if (east.checked && array[sid].track == "East Arrival") {
                 compassLine(90);
-                arrivalCompass(sid, array[sid].runways, array[sid].trackHdg, array[sid].track, array[sid].waypoints);
+                arrivalCompass(sid, array[sid].runway, array[sid].track_heading, array[sid].track, array[sid].waypoints);
             } else {
                 // console.log("Looping!");
             }
         }
         if (document.getElementsByClassName("tr-data").length <= 0) {
-            snackbar.innerHTML = "This Runway Does Not Have A SID Arrival!";
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
+            showSnackbar("This Runway Does Not Have A SID Arrival!", 3000);
         }
     });
 }
 
 
 function compassLine(heading) {
-    if ($("#line").length > 0) {
-        for (i = 0; i < $("#line").length; i++) {
-            document.querySelector("#line").remove();
-        }
+    for (let line of document.getElementsByClassName("compass-line")) {
+        line.remove();
     }
     let svg = document.getElementById("compassCircle");
 
-    //Line
-    var element = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    let windX = 150 + (75 * Math.sin(0.01745329251 * heading));
-    let windY = 150 + (75 * -Math.cos(0.01745329251 * heading));
-    element.setAttribute("id", "line");
-    element.setAttribute("x1", 150);
-    element.setAttribute("y1", 150);
-    element.setAttribute("x2", windX);
-    element.setAttribute("y2", windY);
-    element.setAttribute("style", "stroke:blue;stroke-width:2");
+    // Line
+    let element = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    const windX = 150 + (75 * Math.sin(0.01745329251 * heading));
+    const windY = 150 + (75 * -Math.cos(0.01745329251 * heading));
+    element.classList.add("compass-line");
+    element.setAttribute("x1", String(150));
+    element.setAttribute("y1", String(150));
+    element.setAttribute("x2", String(windX));
+    element.setAttribute("y2", String(windY));
+    element.setAttribute("style", "stroke:blue; stroke-width:2;");
     svg.appendChild(element);
 }
 
+// MAP Leaflet
+let mymap = L.map('mapid');
+initMap();
 
-//MAP Leaflet
-var mymap = L.map('mapid');
-map();
-
-function map() {
+function initMap() {
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 14,
@@ -598,30 +595,29 @@ function map() {
 
     $("#mapid").height($(window).height() / 1.5).width($(window).width() / 2.5);
     mymap.invalidateSize();
-    mapLegende();
+    addLegendToMap();
 }
 
-function changeAirport(icao) {
-    getRunwayData(icao, function (resultRwy) {
-        for (var i = 0; i < resultRwy.runways.length; i++) {
-            if (resultRwy.runways[i].name != "") {
-                getSidData(resultRwy.runways[i].name, icao, function (resultSid) {
-                    for (var sid in resultSid) {
-                        changeMap(resultSid[sid].aerodome.lat, resultSid[sid].aerodome.lon, icao)
-                        firstPoint.push([resultSid[sid].aerodome.lat, resultSid[sid].aerodome.lon]);
-                        return;
-                    }
-                });
+async function changeAirport(icao) {
+    const runways = await getRunwayData(icao);
+
+    for (let i = 0; i < runways.length; i++) {
+        if (runways[i].name !== "") {
+            const resultSid = await getSidData(runways[i].name, icao);
+
+            for (let sid in resultSid) {
+                changeMap(resultSid[sid].airport.lat, resultSid[sid].airport.lon, icao)
+                firstPoint.push([resultSid[sid].airport.lat, resultSid[sid].airport.lon]);
+                return; // TODO: Why?
             }
-            return;
         }
-    });
+        return; // TODO: Why?
+    }
 }
-
 
 function changeMap(lat, lon, icao) {
-    var greenIcon = L.icon({
-        iconUrl: 'http://werbungbnc.bplaced.net/assets/icon/airport_icon.svg',
+    let greenIcon = L.icon({
+        iconUrl: '/assets/icon/airport_icon.svg',
 
         iconSize: [38, 95],
         iconAnchor: [22, 94],
@@ -632,99 +628,93 @@ function changeMap(lat, lon, icao) {
     layer.addTo(mymap).bindPopup(icao).openPopup();
 }
 
-var bgColor = null;
+let bgColor = null;
 
 function tableEvent(x) {
     mapActivate();
-    if (latlngs.length > 1) {
+    if (latLngs.length > 1) {
         deleteMapElements();
         clearApp();
         bgColor.removeAttribute("bgcolor");
     }
-    var tempArray = globalArray[x.currentTarget.attributes[1].nodeValue];
+
+    const tempArray = globalArray[x.currentTarget.attributes[1].nodeValue];
     console.log(tempArray);
     bgColor = x.currentTarget;
     x.currentTarget.setAttribute("bgcolor", "green");
-    for (i = 0; i < tempArray.waypoints.length; i++) {
-        if (condition) {
-            if (i == 0) {
-                latlngs.push([firstPoint[0][0], firstPoint[0][1]]);
+
+    for (let i = 0; i < tempArray.waypoints.length; i++) {
+        if (showSidsElseStar) {
+            if (i === 0) {
+                latLngs.push([firstPoint[0][0], firstPoint[0][1]]);
             }
         }
-        if (tempArray.waypoints[i].lat != 0) {
-            var allMarkers = new L.Marker([tempArray.waypoints[i].lat, tempArray.waypoints[i].lon]);
+        if (tempArray.waypoints[i].lat !== 0) {
+            let allMarkers = new L.Marker([tempArray.waypoints[i].lat, tempArray.waypoints[i].lon]);
             marker.push(allMarkers);
-            allMarkers.addTo(mymap).bindPopup(tempArray.waypoints[i].wypname).openPopup();
-            latlngs.push([tempArray.waypoints[i].lat, tempArray.waypoints[i].lon]);
+            allMarkers.addTo(mymap).bindPopup(tempArray.waypoints[i].name).openPopup();
+            latLngs.push([tempArray.waypoints[i].lat, tempArray.waypoints[i].lon]);
         }
     }
-    polyline = L.polyline(latlngs, {color: 'black'});
+
+    polyline = L.polyline(latLngs, {color: 'black'});
     mymap.fitBounds(polyline.getBounds());
     polyline.addTo(mymap);
 }
 
+async function getRunwayData(icao) {
+    const runwayResponse = await fetch(`/api/airports/${icao}/runways`);
+    const runwayResponseJson = await runwayResponse.json();
 
-function getRunwayData(icao, callback) {
-    var Info = new XMLHttpRequest();
-    Info.open("GET", "https://superananas.de/runways/?icao=" + icao, true);
-    Info.onreadystatechange = function () {
-        if (Info.readyState != 4) return;
-        callback(JSON.parse(Info.responseText));
+    if (runwayResponse.ok) {
+        return runwayResponseJson.runways;
     }
-    Info.send();
+    else {
+        throw new Error(runwayResponseJson.error);
+    }
 }
 
-function getSidData(runway, icao, callback) {
-    const coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/sids", true);
-    coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    coordinates.onreadystatechange = function () {
-        if (coordinates.readyState !== 4) return;
-        if (coordinates.status === 200) {
-            callback(JSON.parse(coordinates.responseText));
-            return;
-        }
-        callback(coordinates.status);
+async function getSidData(runway, icao) {
+    const sidResponse = await fetch(`/api/airports/${icao}/runways/${runway}/sids`);
+    const sidResponseJson = await sidResponse.json();
+
+    if (sidResponse.ok) {
+        return sidResponseJson;
     }
-    coordinates.send();
+    else {
+        throw new Error(sidResponseJson.error);
+    }
 }
 
-function getStarData(runway, icao, callback) {
-    const coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/stars", true);
-    coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    coordinates.onreadystatechange = function () {
-        if (coordinates.readyState !== 4) return;
-        if (coordinates.status === 200) {
-            callback(JSON.parse(coordinates.responseText));
-            return;
-        }
-        callback(coordinates.status);
+async function getStarData(runway, icao) {
+    const starResponse = await fetch(`/api/airports/${icao}/runways/${runway}/stars`);
+    const starResponseJson = await starResponse.json();
+
+    if (starResponse.ok) {
+        return starResponseJson;
     }
-    coordinates.send();
+    else {
+        throw new Error(starResponseJson.error);
+    }
 }
 
-function getAppData(runway, icao, callback) {
-    const coordinates = new XMLHttpRequest();
-    coordinates.open("GET", "/api/airports/" + icao + "/runways/" + runway + "/approaches", true);
-    coordinates.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    coordinates.onreadystatechange = function () {
-        if (coordinates.readyState !== 4) return;
-        if (coordinates.status === 200) {
-            callback(JSON.parse(coordinates.responseText));
-            return;
-        }
-        callback(coordinates.status);
-    }
-    coordinates.send();
-}
+async function getAppData(runway, icao) {
+    const approachResponse = await fetch(`/api/airports/${icao}/runways/${runway}/approaches`);
+    const approachResponseJson = await approachResponse.json();
 
+    if (approachResponse.ok) {
+        return approachResponseJson;
+    }
+    else {
+        throw new Error(approachResponseJson.error);
+    }
+}
 
 function createTable() {
     while (document.getElementById("tableConfig").childElementCount > 0) {
         document.getElementById("tableConfig").childNodes[0].remove();
     }
-    if (condition) {
+    if (showSidsElseStar) {
         let array = ["Sid Name", "Runway", "Flight Level", "Track", "Track HDG", "Waypoints"];
         for (i = 0; i < array.length; i++) {
             let th = document.createElement("th");
@@ -755,7 +745,7 @@ function createTable() {
 }
 
 function clearAll() {
-    if (latlngs.length > 0 || firstPoint.length > 0) {
+    if (latLngs.length > 0 || firstPoint.length > 0) {
         deleteMapElements();
         mymap.removeLayer(layer);
         firstPoint = [];
@@ -768,8 +758,8 @@ function clearAll() {
 function deleteMapElements() {
     mymap.removeLayer(polyline);
     mymap.removeLayer(appPolyline);
-    latlngs = [];
-    appLatlngs = [];
+    latLngs = [];
+    appLatLngs = [];
     polyline = [];
     appPolyline = []
     for (let i = 0; i < marker.length; i++) {
@@ -795,7 +785,7 @@ function circleSvg() {
     svg.setAttribute("width", width);
     svg.setAttribute("id", "compassCircle");
 
-    svg.innerHTML += '<image x="0" y="0" width="300" height="300"  xlink:href="http://werbungbnc.bplaced.net/assets/img/compass_nils.svg" />';
+    svg.innerHTML += '<image x="0" y="0" width="300" height="300"  xlink:href="/assets/img/compass_nils.svg" />';
 
     svg.innerHTML += '<foreignObject width="100" height="100" x="' + (center.x - 7) + '" y="' + (center.y - radius - 20 - margin) + '"><input type="radio" name="GroupSvg" id="north"></foreignObject>';
     svg.innerHTML += '<foreignObject width="100" height="100" x="' + (center.x - radius - 17 - margin) + '" y="' + (center.y + -11) + '"><input type="radio" name="GroupSvg" id="west"></foreignObject>';
@@ -811,7 +801,7 @@ function circleSvg() {
     compass.appendChild(div);
 }
 
-function activeRunwayh3(temp) {
+function activeRunwayh3(runway) {
     let h3 = document.createElement("h3");
     h3.classList.add("mt-5");
     h3.classList.add("bg-dark");
@@ -819,7 +809,7 @@ function activeRunwayh3(temp) {
     h3.classList.add("rounded-circle");
     h3.classList.add("text-center");
 
-    h3.innerHTML += "<u>Active Runway</u><br>" + temp.runways[0].name + "  " + temp.runways[0].length_m + "m";
+    h3.innerHTML += "<u>Active Runway</u><br>" + runway.name + "  " + runway.length_m + "m";
     activeRunway.appendChild(h3);
 }
 
@@ -840,68 +830,71 @@ function clearTable() {
 }
 
 function clearApp() {
-    mymap.removeLayer(goAroundLatlngs);
+    mymap.removeLayer(goAroundLatLngs);
     mymap.removeLayer(goAroundPolyline);
     mymap.removeLayer(holding);
     for (let i = 0; i < goAroundMarker.length; i++) {
         mymap.removeLayer(goAroundMarker[i]);
     }
     holding = [];
-    goAroundLatlngs = [];
+    goAroundLatLngs = [];
     goAroundMarker = [];
     goAroundPolyline = [];
 }
 
-function appEvent(x) {
-    getAppData(x.currentTarget.value, document.getElementById("icao").value, function (tempApp) {
-        var appData = tempApp[x.target.id].waypoints;
-        for (let i = 0; i < appData.length; i++) {
-            if (i === 0) {
-                appLatlngs.push([latlngs[latlngs.length - 1][0], latlngs[latlngs.length - 1][1]]);
-            }
-            if ((appData[i].type === "Runway") && (appData.length - 1 !== i)) {
-                // console.log(appData[i].type + ", " + appData[i].lat +", " + appData[i].lon);
-                for (let j = (i); j < appData.length; j++) {
-                    if (appData[j].lat !== 0) {
-                        let tempMarker = new L.Marker([appData[j].lat, appData[j].lon]);
-                        goAroundMarker.push(tempMarker);
-                        tempMarker.addTo(mymap);
-                        goAroundLatlngs.push([appData[j].lat, appData[j].lon]);
-                        if (appData[j].type === "Hold") {
-                            holding = L.ellipse([appData[j].lat, appData[j].lon], [1500, 750], 0, {
-                                color: "yellow",
-                                weight: 8
-                            });
-                        }
+async function appEvent(x) {
+    const approaches = await getAppData(x.currentTarget.value, icaoInputElement.value);
+
+    const waypoints = approaches[x.target.id].waypoints;
+    for (let i = 0; i < waypoints.length; i++) {
+        if (i === 0) {
+            appLatLngs.push([latLngs[latLngs.length - 1][0], latLngs[latLngs.length - 1][1]]);
+        }
+
+        if ((waypoints[i].type === "Runway") && (waypoints.length - 1 !== i)) {
+            for (let j = i; j < waypoints.length; j++) {
+                if (waypoints[j].lat !== 0) {
+                    const tempMarker = new L.Marker([waypoints[j].lat, waypoints[j].lon]);
+                    goAroundMarker.push(tempMarker);
+                    tempMarker.addTo(mymap);
+                    goAroundLatLngs.push([waypoints[j].lat, waypoints[j].lon]);
+                    if (waypoints[j].type === "Hold") {
+                        holding = L.ellipse([waypoints[j].lat, waypoints[j].lon], [1500, 750], 0, {
+                            color: "yellow",
+                            weight: 8
+                        });
                     }
                 }
-                appLatlngs.push([appData[i].lat, appData[i].lon]);
-                break;
             }
-            if (appData[i].lat !== 0) {
-                var allMarkers = new L.Marker([appData[i].lat, appData[i].lon]);
-                marker.push(allMarkers);
-                allMarkers.addTo(mymap);
-                appLatlngs.push([appData[i].lat, appData[i].lon]);
-            }
+
+            appLatLngs.push([waypoints[i].lat, waypoints[i].lon]);
+            break;
         }
-        appPolyline = L.polyline(appLatlngs, {color: 'DodgerBlue'});
-        mymap.fitBounds(appPolyline.getBounds());
-        goAroundPolyline = L.polyline(goAroundLatlngs, {className: 'my_polyline'}).addTo(mymap);
-        appPolyline.addTo(mymap);
-        holding.addTo(mymap);
-    })
+
+        if (waypoints[i].lat !== 0) {
+            const allMarkers = new L.Marker([waypoints[i].lat, waypoints[i].lon]);
+            marker.push(allMarkers);
+            allMarkers.addTo(mymap);
+            appLatLngs.push([waypoints[i].lat, waypoints[i].lon]);
+        }
+    }
+
+    appPolyline = L.polyline(appLatLngs, {color: 'DodgerBlue'});
+    mymap.fitBounds(appPolyline.getBounds());
+    goAroundPolyline = L.polyline(goAroundLatLngs, {className: 'my_polyline'}).addTo(mymap);
+    appPolyline.addTo(mymap);
+    holding.addTo(mymap);
 }
 
-var help1 = document.getElementById("helpBox1");
-var help2 = document.getElementById("helpBox2");
+let help1 = document.getElementById("helpBox1");
+let help2 = document.getElementById("helpBox2");
 
-var extraHelp = document.getElementById("map");
+let extraHelp = document.getElementById("map");
 extraHelp.addEventListener("click", function () {
     mapActivate();
 })
 
-var normalHelp = document.getElementById("help");
+let normalHelp = document.getElementById("help");
 normalHelp.addEventListener("click", function () {
     help1.style.display = "none";
     help2.style.display = "block";
@@ -913,19 +906,18 @@ function mapActivate() {
 
 }
 
-function mapLegende() {
-    var legend = L.control({position: 'bottomright'});
+function addLegendToMap() {
+    let legend = L.control({position: 'bottomright'});
 
-    legend.onAdd = function (mymap) {
+    legend.onAdd = function () {
+        const mapLegendElement = L.DomUtil.create('div', 'info legend');
 
-        var div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML += '<i style="background:black"></i>Star/Sid Route <br>';
-        div.innerHTML += '<i style="background:DodgerBlue"></i>Approach Route <br>';
-        div.innerHTML += '<i style="background:green"></i>Missed Approach <br>';
-        div.innerHTML += '<i style="background:yellow"></i>Holding Pattern';
+        mapLegendElement.innerHTML += '<i style="background:black"></i>Star/Sid Route <br>';
+        mapLegendElement.innerHTML += '<i style="background:DodgerBlue"></i>Approach Route <br>';
+        mapLegendElement.innerHTML += '<i style="background:green"></i>Missed Approach <br>';
+        mapLegendElement.innerHTML += '<i style="background:yellow"></i>Holding Pattern';
 
-
-        return div;
+        return mapLegendElement;
     };
 
     legend.addTo(mymap);
