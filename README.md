@@ -10,3 +10,6 @@ Start the dev server with the [/devserver/start-dev-server.sh](devserver/start-d
 - Find alternative metar example 3
     - No available metar data for EGXX
 - Fix handling and style of Help-box on ATC-Com
+- Reset Highlight for vector sid entrys
+    - e.g. KLAX PRCH3.07L
+    - fixes itself on double-click
