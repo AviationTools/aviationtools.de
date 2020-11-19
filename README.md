@@ -13,3 +13,7 @@ Start the dev server with the [/devserver/start-dev-server.sh](devserver/start-d
 - Reset Highlight for vector sid entrys
     - e.g. KLAX PRCH3.07L
     - fixes itself on double-click
+- Pilot Test Counter is in the back and gets covered by boxes
+    - Red box in front
+    - White text on white box
+        - invert?
