@@ -589,7 +589,7 @@ function initMap() {
         attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
         maxZoom: 14,
         id: 'mapbox/streets-v11',
-        accessToken: 'pk.eyJ1IjoiYm5jNGsiLCJhIjoiY2pwcmhnNzF2MDFlejN4bjdjamR2cHJnNCJ9.mZMpSXrNgjTPU0dky1cfvA'
+        accessToken: 'pk.eyJ1IjoiYm5jNGsiLCJhIjoiY2tpM2VvYWFwMGZhYTJ0c3lrc3Azd2d5biJ9.Dq8sSRQnR_7eRigzT80eNA'
     }).addTo(mymap);
     mymap.locate({setView: true, maxZoom: 8});
 
