@@ -85,8 +85,8 @@
 
             <div class="card mb-3 text-white bg-info">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Join ATC-Com´s Discord Server</h5><br>
-                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw">--><u>ATC-Com</u><--</a>
+                    <h5 class="card-title">Join Aviation-Tools´s Discord Server</h5><br>
+                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw">--><u>Aviation-Tools</u><--</a>
                     </h2>
                     <img src="assets/img/radar.png" alt="radar" height="50px" width="50px">
                 </div>
