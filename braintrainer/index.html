@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!-- Font Awsome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- Custom JS -->
+    <script defer src="./index.js"></script>
+    
+   <title>Conversion Memorizer</title>
+  </head>
+  <body style="margin: 5%; height: 100vh">
+  	<div class="container-fluid" style="height: 90%">
+	  	<h1 class="text-center" style="margin: 5%">Pilot Brain Trainer</h1>
+	  	<div class="card" style="height: 100%">
+	     
+
+	      <div class="card-header">
+	        
+	          <div class="row">
+	            <div class="col-6 px-0"><h3 class="mx-1" style="text-align:right;" id="first_display"></h3></div>
+	            <span class="col-3 bg-white rounded px-0"><h3 class="text-center" id="second_display"></h3></span>
+	            <div class="col-3 px-0"><h3 id="third_display" class="mx-1"></h3></div>
+	            <p id="hint" class="text-warning text-center"></p>
+	          </div>
+
+	      </div>
+
+	      <div class="card-body">
+	        <div class="row">
+	          <div class="text-center">
+	            <button id="btn1" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
+	            <button id="btn2" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
+	            <button id="btn3" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
+	            <button id="btn4" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
+	          </div>
+	        </div>
+
+	        <div class="row" style="margin-top: 2%;">
+	          
+	          <div class="col text-center">
+	            <button id="reset" class="btn btn-danger" type="button">
+	              <i class="fas fa-redo"></i>
+	            </button>
+	          </div>
+	          <div class="col text-center">
+	            <button id="hintButton" class="btn btn-warning" type="button">
+	              <i class="fas fa-question"></i>
+	            </button>
+	          </div>
+	          <div class="col text-center">
+	            <button id="next" class="btn btn-success" type="button">
+	              <i class="fas fa-chevron-right"></i>
+	            </button>
+	          </div>
+
+	        </div>
+	      </div>
+
+	      <div class="card-footer text-muted">
+	        <div class="progress">
+	          <div id="progress" class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+	        </div>
+	        <p id="footer_display" class="text-center my-1"></p>
+	      </div>
+
+	    </div>
+
+
+	    <!-- Modal Score & Restart -->
+	    <div class="modal fade" id="restartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Your Score</h5>
+	          </div>
+	          <div class="modal-body">
+	            <p id="score_display"></p>
+	          </div>
+	          <div class="modal-footer">
+	            <button id="questions" type="button" class="btn btn-secondary" data-dismiss="modal">Choose Questions</button>
+	            <button id="restart" type="button" class="btn btn-primary" data-dismiss="modal">Restart</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+	    <!-- Modal Startup -->
+	    <div class="modal fade" id="startModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	      <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title" id="exampleModalLabel">Start</h5>
+	          </div>
+	          <div class="modal-body">
+	            
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio" value="20" checked>
+	              <label class="form-check-label" for="radio1">
+	                20 Questions
+	              </label>
+	            </div>
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio" value="50">
+	              <label class="form-check-label" for="radio2">
+	                50 Questions
+	              </label>
+	            </div>
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio" value="costum">
+	              <label class="form-check-label" for="radio3">
+	                  <input id="startInput" type="text" class="form-control" placeholder="Costum" disabled>
+	              </label>
+	            </div>
+
+	            <div class="form-check form-switch">
+	              <input class="form-check-input" type="checkbox" id="optionConversion" checked>
+	              <label class="form-check-label" for="optionConversion">Conversions</label>
+	            </div>
+	            <div class="form-check form-switch">
+	              <input class="form-check-input" type="checkbox" id="optionTime" disabled>
+	              <label class="form-check-label" for="optionTime">Times</label>
+	            </div>
+	            <div class="form-check form-switch">
+	              <input class="form-check-input" type="checkbox" id="optionBasics" disabled>
+	              <label class="form-check-label" for="optionBasics">Basics</label>
+	            </div>
+
+	          </div>
+	          <div class="modal-footer">
+	            <button id="start" type="button" class="btn btn-primary" data-dismiss="modal">Start</button>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+
+
+	    <!-- Optional JavaScript -->
+	    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </div>
+  </body>
+</html>
