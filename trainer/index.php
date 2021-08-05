@@ -3,7 +3,7 @@
     $title = 'Pilot Test';
     include '../assets/layout/header.php'; ?>
 
-<script defer src="./trainer/trainer.js"></script>
+<script defer src="./trainer.js"></script>
 
 	  	<h1 class="text-center">Pilot Brain Trainer</h1>
 	  	<div class="card" id="screenSize">
