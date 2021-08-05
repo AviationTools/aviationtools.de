@@ -3,14 +3,11 @@
     $title = 'Pilot Test';
     include '../assets/layout/header.php'; ?>
 
-<script defer src="./trainer.js"></script>
+<script defer src="./trainer/trainer.js"></script>
 
-<body style="margin: 5%; height: 100vh">
-  	<div class="container-fluid" style="height: 90%">
-	  	<h1 class="text-center" style="margin: 5%">Pilot Brain Trainer</h1>
-	  	<div class="card" style="height: 100%">
+	  	<h1 class="text-center">Pilot Brain Trainer</h1>
+	  	<div class="card" id="screenSize">
 	     
-
 	      <div class="card-header">
 	        
 	          <div class="row">
@@ -23,17 +20,22 @@
 	      </div>
 
 	      <div class="card-body">
-	        <div class="row">
-	          <div class="text-center">
-	            <button id="btn1" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
-	            <button id="btn2" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
-	            <button id="btn3" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
-	            <button id="btn4" class="btn btn-primary btn-lg btn-block my-1 w-75" type="button">Button</button>
-	          </div>
-	        </div>
 
-	        <div class="row" style="margin-top: 2%;">
-	          
+	          <div class="text-center">
+
+	          	<div class="d-flex flex-column">
+					<button id="btn1" class="btn btn-primary btn-lg btn-block mb-3" type="button">Button</button>
+					<button id="btn2" class="btn btn-primary btn-lg btn-block my-3" type="button">Button</button>
+					<button id="btn3" class="btn btn-primary btn-lg btn-block my-3" type="button">Button</button>
+					<button id="btn4" class="btn btn-primary btn-lg btn-block mt-3" type="button">Button</button>
+				</div>
+
+	          </div>
+	      </div>
+
+	      <div class="card-footer text-muted">
+
+	      	<div class="row mb-3">
 	          <div class="col text-center">
 	            <button id="reset" class="btn btn-danger" type="button">
 	              <i class="fas fa-redo"></i>
@@ -49,11 +51,8 @@
 	              <i class="fas fa-chevron-right"></i>
 	            </button>
 	          </div>
-
 	        </div>
-	      </div>
 
-	      <div class="card-footer text-muted">
 	        <div class="progress">
 	          <div id="progress" class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
 	        </div>
@@ -129,7 +128,5 @@
 	        </div>
 	      </div>
 	    </div>
-    </div>
-  </body>
 
 <?php include '../assets/layout/footer.php'; ?>

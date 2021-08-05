@@ -2,7 +2,7 @@
     session_start(); ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
     <head>
         <!-- google analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115527911-1"></script>
@@ -42,7 +42,7 @@
                     echo $title;
                 } ?></title>
     </head>
-    <body>
+    <body style="height: 100%;">
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
             <a class="navbar-brand" href="/">
@@ -126,4 +126,4 @@
             </div>
         </nav>
 
-        <div class="container-fluid pt-3 pb-5">
+        <div class="container-fluid py-2">
