@@ -36,6 +36,7 @@ let timeStamp;
 let onFirstTry = true;
 let correctAnswer = 0;
 
+
 document.getElementById("screenSize").style.height = (screen.height - 170) + "px";
 
 function randomizer() {
@@ -55,7 +56,7 @@ function randomizer() {
 		restartHandling();
 	}
 	historyCount++;
-	randomizeOptionBtn(Math.round(returnResult.calc));
+	randomizeOptionBtn(Math.round(returnResult.calc), returnResult.otherNumbers);
 }
 
 function displayOutput(result = "") {
@@ -69,66 +70,60 @@ function displayFooter() {
 	footer_display.innerText = "(" + historyCount + "/"+ questionNumbers + ")";
 }
 
-function specificRandomNumber(max, min) {
-	return Math.round(Math.floor(Math.random() * (max - min) + min) / 10) * 10;
-}
-
 function randomMethod() {
 	let randomNr = Math.floor(Math.random() * 6) + 1;
 	let secondRandomNr = Math.floor(Math.random() * 2) + 1;
 	
-
-	if (randomNr == 1) {
-		if(secondRandomNr == 1) {
-			return calculation.nmToKm();
+	if (document.getElementById("optionConversion").checked) {
+		if (randomNr == 1) {
+			if(secondRandomNr == 1) {
+				return calculation.nmToKm();
+			} else {
+				return calculation.kmToNm();
+			}
+		} else if(randomNr == 2) {
+			if(secondRandomNr == 1) {
+				return calculation.feetToMeter();
+			} else {
+				return calculation.meterToFeet();
+			}
+		} else if(randomNr == 3) {
+			if(secondRandomNr == 1) {
+				return calculation.ktToKmh();
+			} else {
+				return calculation.kmhToKt();
+			}
+		} else if(randomNr == 4) {
+			if(secondRandomNr == 1) {
+				return calculation.celciusToFahrenheit();
+			} else {
+				return calculation.fahrenheitToCelcius();
+			}
+		} else if(randomNr == 5) {
+			if(secondRandomNr == 1) {
+				return calculation.poundsToKg();
+			} else {
+				return calculation.kgToPounds();
+			}
 		} else {
-			return calculation.kmToNm();
-		}
-	} else if(randomNr == 2) {
-		if(secondRandomNr == 1) {
-			return calculation.feetToMeter();
-		} else {
-			return calculation.meterToFeet();
-		}
-	} else if(randomNr == 3) {
-		if(secondRandomNr == 1) {
-			return calculation.ktToKmh();
-		} else {
-			return calculation.kmhToKt();
-		}
-	} else if(randomNr == 4) {
-		if(secondRandomNr == 1) {
-			return calculation.celciusToFahrenheit();
-		} else {
-			return calculation.fahrenheitToCelcius();
-		}
-	} else if(randomNr == 5) {
-		if(secondRandomNr == 1) {
-			return calculation.poundsToKg();
-		} else {
-			return calculation.kgToPounds();
-		}
-	} else {
-		if(secondRandomNr == 1) {
-			return calculation.galToLiter();
-		} else {
-			return calculation.literToGal();
+			if(secondRandomNr == 1) {
+				return calculation.galToLiter();
+			} else {
+				return calculation.literToGal();
+			}
 		}
 	}
+
+	if (document.getElementById("optionHeadings").checked) {
+		return calculation.headings();
+	}
+
 }
 
-
-function randomizeOptionBtn(number) {
+//Randomizes Other Button Options
+function randomizeOptionBtn(number, array) {
 	randomNumber = number;
-	let numberArray = [];
-	for (var i = 0; i < 4; i++) {
-		if(i == 0) {
-			//Correct Answer
-			numberArray.push(number);
-		}else {
-			numberArray.push(number + Math.floor(Math.random()*10) * 10 - 200);
-		}
-	}
+	let numberArray = array;
 	
 	randomElement = shuffle(numberArray);
 	btn1.innerText = randomElement[0];
@@ -343,9 +338,42 @@ class MassystemIcao {
   getRandomNumberInRange(max, min) {
   	return Math.round(Math.floor(Math.random() * (max - min) + min) / 10) * 10;
   }
+
+  getOtherRandomNumbers(startNumber, multiplier = 10) {
+  	let otherNumbers = []
+  	for (var i = 0; i < 4; i++) {
+  		if (i == 0) {
+  			otherNumbers.push(Math.floor(startNumber));
+  		} else {
+  			otherNumbers.push(Math.floor((Math.floor(Math.random() * multiplier) * 11 + 10) + startNumber));
+  		}
+  	}
+  	return otherNumbers;
+  }
+
+  getRandomHeadingNumber(max, min) {
+  	let heading = Math.round(Math.floor(Math.random() * (max - min) + min) / 10) * 5;
+  	if(heading == 0) {
+  		return 360;
+  	} else {
+  		return heading;
+  	}
+  }
+
+  randomHeadingNumber(startNumber) {
+ 	let otherNumbers = []
+  	
+  	otherNumbers.push(startNumber);
+  	otherNumbers.push((startNumber + 40) %360);
+  	otherNumbers.push((startNumber + 30) %360);
+  	otherNumbers.push((startNumber + 90) %360);
+  	
+  	return otherNumbers;
+ }
   //Strecken
   nmToKm() {
-    const random = this.getRandomNumberInRange(500, 50);     
+    const random = this.getRandomNumberInRange(500, 50);
+    const calcNumber = random * 2 * 0.9;     
 
     return {
         units: {
@@ -353,12 +381,14 @@ class MassystemIcao {
             to: "km"
         },
         help: "nm * 2 * 0.9",
-        calc: random * 2 * 0.9,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   kmToNm() {
-  	const random = this.getRandomNumberInRange(500, 50);     
+  	const random = this.getRandomNumberInRange(500, 50); 
+  	const calcNumber = random / 2 * 1.1;    
 
     return {
         units: {
@@ -366,14 +396,16 @@ class MassystemIcao {
             to: "nm"
         },
         help: "km / 2 * 1.1",
-        calc: random / 2 * 1.1,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   
   //Höhen
   feetToMeter() {
-  	const random = this.getRandomNumberInRange(30000, 1000);     
+  	const random = this.getRandomNumberInRange(30000, 1000);
+  	const calcNumber = random / 10 * 3;     
 
     return {
         units: {
@@ -381,12 +413,14 @@ class MassystemIcao {
             to: "m"
         },
         help: "ft / 10 * 3",
-        calc: random / 10 * 3,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   meterToFeet() {
-  	const random = this.getRandomNumberInRange(10000, 1000);     
+  	const random = this.getRandomNumberInRange(10000, 1000);
+  	const calcNumber = random / 3 * 10;     
 
     return {
         units: {
@@ -394,14 +428,16 @@ class MassystemIcao {
             to: "ft"
         },
         help: "m / 3 * 10",
-        calc: random / 3 * 10,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   
   //Speeds
   ktToKmh() {
-  	const random = this.getRandomNumberInRange(600, 100);     
+  	const random = this.getRandomNumberInRange(600, 100);
+  	const calcNumber = random * 2 * 0.9;     
 
     return {
         units: {
@@ -409,12 +445,14 @@ class MassystemIcao {
             to: "km/h"
         },
         help: "kt * 2 * 0.9",
-        calc: random * 2 * 0.9,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   kmhToKt() {
-  	const random = this.getRandomNumberInRange(300, 100);     
+  	const random = this.getRandomNumberInRange(300, 100); 
+  	const calcNumber = random / 2 * 1.1;     
 
     return {
         units: {
@@ -422,27 +460,31 @@ class MassystemIcao {
             to: "kt"
         },
         help: "kmh / 2 * 1.1",
-        calc: random / 2 * 1.1,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
 
   //Temperatur
   celciusToFahrenheit() {
-  	const random = this.getRandomNumberInRange(100, 0);     
+  	const random = this.getRandomNumberInRange(100, 0);
+  	const calcNumber = (random * 9 / 5) + 32;       
 
     return {
         units: {
             from: "C&#176;",
             to: "F&#176;"
         },
-        help: "(c * 9 / 5) + 32",
-        calc: (random * 9 / 5) + 32,
-        randomNumber: random
+        help: "(c * 1.8) + 32",
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   fahrenheitToCelcius() {
-  	const random = this.getRandomNumberInRange(60, -20);     
+  	const random = this.getRandomNumberInRange(60, -20);
+  	const calcNumber = (random - 32) * 5 / 9;     
 
     return {
         units: {
@@ -450,14 +492,16 @@ class MassystemIcao {
             to: "C&#176"
         },
         help: "(f - 32) * 5 / 9",
-        calc: (random - 32) * 5 / 9,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
 
   //Gewicht
   poundsToKg() {
-  	const random = this.getRandomNumberInRange(10000, 100);     
+  	const random = this.getRandomNumberInRange(10000, 100);
+  	const calcNumber = random / 2 * 0.9;     
 
     return {
         units: {
@@ -465,12 +509,14 @@ class MassystemIcao {
             to: "kg"
         },
         help: "p / 2 * 0.9",
-        calc: random / 2 * 0.9,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   kgToPounds() {
-  	const random = this.getRandomNumberInRange(10000, 100);     
+  	const random = this.getRandomNumberInRange(10000, 100);
+  	const calcNumber = random * 2 * 1.1;      
 
     return {
         units: {
@@ -478,14 +524,16 @@ class MassystemIcao {
             to: "lb"
         },
         help: "kg * 2 * 1.1",
-        calc: random * 2 * 1.1,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
 
   //Volumen
   galToLiter() {
-  	const random = this.getRandomNumberInRange(1000, 50);     
+  	const random = this.getRandomNumberInRange(1000, 50);
+  	const calcNumber = random / 4 * 1.05;     
 
     return {
         units: {
@@ -493,12 +541,14 @@ class MassystemIcao {
             to: "l"
         },
         help: "gal / 4 * 1.05",
-        calc: random / 4 * 1.05,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
   literToGal() {
-  	const random = this.getRandomNumberInRange(1000, 50);     
+  	const random = this.getRandomNumberInRange(1000, 50);
+  	const calcNumber = random * 4 * 0.95;     
 
     return {
         units: {
@@ -506,11 +556,30 @@ class MassystemIcao {
             to: "gal"
         },
         help: "l * 4 * 0.95",
-        calc: random * 4 * 0.95,
-        randomNumber: random
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.getOtherRandomNumbers(calcNumber)
     };
   }
+
+  headings() {
+  	const random = this.getRandomHeadingNumber(0, 360);
+  	const calcNumber = (random + 180) %360;
+
+  	return {
+        units: {
+            from: "&#176 + 180&#176",
+            to: "&#176"
+        },
+        help: "add 200 subtract 20",
+        calc: calcNumber,
+        randomNumber: random,
+        otherNumbers: this.randomHeadingNumber(calcNumber)
+    };
+
+  }
  }
+
 
  let calculation = new MassystemIcao();
  randomizer();

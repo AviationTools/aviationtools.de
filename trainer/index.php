@@ -14,8 +14,11 @@
 	            <div class="col-6 px-0"><h3 class="mx-1" style="text-align:right;" id="first_display"></h3></div>
 	            <span class="col-3 bg-white rounded px-0"><h3 class="text-center" id="second_display"></h3></span>
 	            <div class="col-3 px-0"><h3 id="third_display" class="mx-1"></h3></div>
-	            <p id="hint" class="text-warning text-center"></p>
 	          </div>
+
+	          <div class="text-center">
+            	<p id="hint" class="text-warning"></p>
+              </div>
 
 	      </div>
 
@@ -108,17 +111,21 @@
 	              </label>
 	            </div>
 
-	            <div class="form-check form-switch">
-	              <input class="form-check-input" type="checkbox" id="optionConversion" checked>
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio1" id="optionConversion" checked>
 	              <label class="form-check-label" for="optionConversion">Conversions</label>
 	            </div>
-	            <div class="form-check form-switch">
-	              <input class="form-check-input" type="checkbox" id="optionTime" disabled>
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio1" id="optionTime" disabled>
 	              <label class="form-check-label" for="optionTime">Times</label>
 	            </div>
-	            <div class="form-check form-switch">
-	              <input class="form-check-input" type="checkbox" id="optionBasics" disabled>
+	            <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio1" id="optionBasics" disabled>
 	              <label class="form-check-label" for="optionBasics">Basics</label>
+	            </div>
+	             <div class="form-check">
+	              <input class="form-check-input" type="radio" name="GroupRadio1" id="optionHeadings">
+	              <label class="form-check-label" for="optionBasics">Headings</label>
 	            </div>
 
 	          </div>
