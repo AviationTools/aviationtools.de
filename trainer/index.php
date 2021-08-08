@@ -1,6 +1,6 @@
 <?php
-    $page = 'game';
-    $title = 'Pilot Test';
+    $page = 'trainer';
+    $title = 'Pilot Brain Trainer Test';
     include '../assets/layout/header.php'; ?>
 
 <script defer src="./trainer.js"></script>

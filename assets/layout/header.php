@@ -65,11 +65,12 @@
                         </a>
                     </li>
                     <li class="nav-item <?php
-                        if ($page == 'sidstar') {
+                        if ($page == 'trainer') {
                             echo 'active';
                         } ?>">
-                        <a class="nav-link" href="/sidstar/">
-                            <i class="fas fa-route"></i>&nbsp;SidStar
+                        <a class="nav-link" href="/trainer/">
+                            <i class="fas fa-calculator"></i>&nbsp;Pilot Trainer
+                            <small class="badge badge-warning">New</small>
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -94,7 +95,6 @@
                         } ?>">
                         <a class="nav-link" href="/game/">
                             <i class="fas fa-gamepad"></i>&nbsp;Pilot Test
-                            <small class="badge badge-warning">New</small>
                         </a>
                     </li>
                     <li class="nav-item dropdown <?php

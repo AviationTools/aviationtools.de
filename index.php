@@ -86,7 +86,7 @@
             <div class="card mb-3 text-white bg-info">
                 <div class="card-body text-center">
                     <h5 class="card-title">Join Aviation-Tools´s Discord Server</h5><br>
-                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw">--><u>Aviation-Tools</u><--</a>
+                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw"><u>Aviation-Tools</u></a>
                     </h2>
                     <img src="assets/img/radar.png" alt="radar" height="50px" width="50px">
                 </div>
@@ -95,10 +95,12 @@
             <div class="card mb-3 text-white bg-dark">
                 <div class="card-body text-center">
                     <h5 class="card-title">Latest News</h5>
-                    <p class="card-text">Thank you for all your questions about the current state of this website. We are hard at work migrating to our new domain <a href="https://aviationtools.de">aviationtools.de</a>.<br>We ask for your understanding and patience while we get the website back into a working state!</p>
+                    <p class="card-text"><br>
+                        Thank you for your patience fellow Aviators.
+                        Finally my small project is released, feel free to try the new Pilot Brain Trainer & also enjoy it on your mobile device <a href="https://aviationtools.de/trainer">Pilot Trainer</a></p>
                 </div>
                 <div class="card-footer text-white text-center">
-                    <u>Posted: Fri, 13 Nov 2020 14:31:12 GMT</u>
+                    <u>Posted: Fri, 06 Aug 2021 12:49:06 GMT</u>
                 </div>
             </div>
         </div>
