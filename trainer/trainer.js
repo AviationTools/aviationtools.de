@@ -36,8 +36,7 @@ let timeStamp;
 let onFirstTry = true;
 let correctAnswer = 0;
 
-
-document.getElementById("screenSize").style.height = (screen.height - 170) + "px";
+document.getElementById("screenSize").style.height = (screen.height * 0.0625) - 18 + "rem";
 
 function randomizer() {
 	clearTimeout(timeOut);
@@ -568,7 +567,7 @@ class MassystemIcao {
 
   	return {
         units: {
-            from: "&#176 + 180&#176",
+            from: "&#176 opposite course",
             to: "&#176"
         },
         help: "add 200 subtract 20",
