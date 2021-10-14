@@ -594,7 +594,7 @@ function sorting(input, id) {
 
 function getNotamData(icao, callback) {
     var notams = new XMLHttpRequest();
-    notams.open("GET", "https://superananas.de/runways/retrieveNotam.php?icao=" + icao, true);
+    notams.open("GET", "https://aviationtools.de/api/notams/" + icao, true);
     notams.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     notams.onreadystatechange = function () {
         if (notams.readyState != 4) {

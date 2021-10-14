@@ -23,7 +23,7 @@
         cursor: pointer;
     }
 </style>
-<span class="badge badge-warning">Due to the "FAA" changing there NOTAM retrieval website, where ATC-COM gets the information from! I will need to rethink the design. My apologies.</span>
+<!-- <span class="badge badge-warning">Due to the "FAA" changing there NOTAM retrieval website, where ATC-COM gets the information from! I will need to rethink the design. My apologies.</span> -->
 <div class="row">
     <div class="col-md-9">
         <div class="row">
@@ -32,9 +32,9 @@
                 <div class="form-row mt-3">
                     <div class="form-group col">
                         <div class="row">
-                            <input disabled type="text" name="icao" id="icao" placeholder="Aerodome ICAO" class="form-control w-25 mx-3">
+                            <input type="text" name="icao" id="icao" placeholder="Aerodome ICAO" class="form-control w-25 mx-3">
                             <div>
-                                <button disabled name="checkbox" type="button" class="btn btn-primary mx-1" id="decode">Decode</button>
+                                <button name="checkbox" type="button" class="btn btn-primary mx-1" id="decode">Decode</button>
                                 <button name="checkbox" type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success mx-1" id="helpBox">Help</button>
                             </div>
                         </div>
