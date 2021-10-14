@@ -94,13 +94,14 @@
 
             <div class="card mb-3 text-white bg-dark">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Latest News</h5>
+                    <h5 class="card-title">Latest News <small class="badge badge-warning">Update!</small></h5>
                     <p class="card-text"><br>
-                        Thank you for your patience fellow Aviators.
-                        Finally my small project is released, feel free to try the new Pilot Brain Trainer & also enjoy it on your mobile device <a href="https://aviationtools.de/trainer">Pilot Trainer</a></p>
+                        Thank you for your patience, fellow Aviators.
+                        As of today I can proudly announce our new/old notam decoder back in our catalog!
+                        <a href="https://aviationtools.de/notams">Notam Decoder</a></p>
                 </div>
                 <div class="card-footer text-white text-center">
-                    <u>Posted: Fri, 06 Aug 2021 12:49:06 GMT</u>
+                    <u>Posted: Fri, 15 October 2021 22:45:17 GMT</u>
                 </div>
             </div>
         </div>

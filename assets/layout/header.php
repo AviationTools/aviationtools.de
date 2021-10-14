@@ -54,6 +54,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item <?php
@@ -65,20 +66,12 @@
                         </a>
                     </li>
                     <li class="nav-item <?php
-                        if ($page == 'trainer') {
+                        if ($page == 'notams') {
                             echo 'active';
                         } ?>">
-                        <a class="nav-link" href="/trainer/">
-                            <i class="fas fa-calculator"></i>&nbsp;Pilot Trainer
+                        <a class="nav-link" href="/notams/">
+                            <i class="fas fa-newspaper"></i>&nbsp;Notams
                             <small class="badge badge-warning">New</small>
-                        </a>
-                    </li>
-                    <li class="nav-item <?php
-                        if ($page == 'atc') {
-                            echo 'active';
-                        } ?>">
-                        <a class="nav-link" href="/atc/">
-                            <i class="fas fa-broadcast-tower"></i>&nbsp;ATC Comms
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -87,6 +80,14 @@
                         } ?>">
                         <a class="nav-link" href="/runways/">
                             <i class="fas fa-plane-departure"></i>&nbsp;Runways
+                        </a>
+                    </li>
+                    <li class="nav-item <?php
+                        if ($page == 'trainer') {
+                            echo 'active';
+                        } ?>">
+                        <a class="nav-link" href="/trainer/">
+                            <i class="fas fa-calculator"></i>&nbsp;Pilot Trainer
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -107,10 +108,6 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/metar/">
                                 <i class="fas fa-cloud"></i>&nbsp;METAR Decoder
-                            </a>
-                            <a class="dropdown-item" href="/notams/">
-                                <i class="fas fa-newspaper"></i>&nbsp;Notam Decoder
-                                <small class="badge badge-warning">New</small>
                             </a>
                         </div>
                     </li>

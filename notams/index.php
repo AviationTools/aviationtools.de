@@ -23,7 +23,6 @@
         cursor: pointer;
     }
 </style>
-<!-- <span class="badge badge-warning">Due to the "FAA" changing there NOTAM retrieval website, where ATC-COM gets the information from! I will need to rethink the design. My apologies.</span> -->
 <div class="row">
     <div class="col-md-9">
         <div class="row">
