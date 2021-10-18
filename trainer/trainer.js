@@ -55,7 +55,8 @@ function randomizer() {
 		restartHandling();
 	}
 	historyCount++;
-	randomizeOptionBtn(Math.round(returnResult.calc), returnResult.otherNumbers);
+	console.log(returnResult.calc)
+	randomizeOptionBtn(Math.floor(returnResult.calc), returnResult.otherNumbers);
 }
 
 function displayOutput(result = "") {
@@ -246,6 +247,8 @@ btn1.addEventListener("click", function() {
 
 
 function checkIfCorrect(correctNumber, testNumber) {
+
+	console.log(correctNumber, testNumber)
 
 	if(correctNumber == testNumber) {
 		if(onFirstTry) {
