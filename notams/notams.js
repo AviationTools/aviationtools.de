@@ -593,21 +593,22 @@ function sorting(input, id) {
 }
 
 function getNotamData(icao, callback) {
-    var notams = new XMLHttpRequest();
-    notams.open("GET", "https://aviationtools.de/api/notams/" + icao, true);
-    notams.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    notams.onreadystatechange = function () {
-        if (notams.readyState != 4) {
-            return;
-        }
-        console.log(notams.responseText);
-        if (notams.status != 400) {
-            callback(JSON.parse(notams.responseText));
-            return;
-        }
-        callback(notams.status);
+    try {
+        fetch("https://aviationtools.de/api/notams/" + icao)
+            .then(response => {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw new Exception(`Could Not Fetch Notams for ${icao}!`);
+                }
+            })
+            .then(notams => {
+                callback(notams.status);
+            });
+    } catch(e) {
+        console.error(e);
+        callback([]);
     }
-    notams.send();
 }
 
 function topicColors() {
