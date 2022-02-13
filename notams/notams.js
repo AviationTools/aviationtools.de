@@ -58,7 +58,7 @@ document.getElementById("search").addEventListener("keyup", function (event) {
 });
 
 
-function main() {
+async function main() {
     if (document.getElementById("icao").value == "" || document.getElementById("icao").value.length !== 4) {
         s.innerText = "No ICAO or too long!";
         s.className = "show";
@@ -78,19 +78,20 @@ function main() {
         createTable();
 
         if (globalArray == null || globalIcao != document.getElementById("icao").value) {
-            getNotamData(document.getElementById("icao").value, function (array) {
-                if (array.length <= 0) {
-                    s.innerText = "Wrong ICAO!";
-                    s.className = "show";
-                    setTimeout(function () {
-                        s.className = s.className.replace("show", "");
-                    }, 3000);
-                } else {
-                    globalArray = array;
-                    topicArray = [];
-                    mainSearch(array);
-                }
-            })
+            let response = await fetch("https://aviationtools.de/api/notams/" + document.getElementById("icao").value);
+            let array = await response.json();
+
+            if (array.length <= 0) {
+                s.innerText = "Wrong ICAO!";
+                s.className = "show";
+                setTimeout(function () {
+                    s.className = s.className.replace("show", "");
+                }, 3000);
+            } else {
+                globalArray = array;
+                topicArray = [];
+                mainSearch(array);
+            }
         } else {
             mainSearch(globalArray);
         }
