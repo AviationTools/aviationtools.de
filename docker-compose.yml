@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  aviationtools.de:
+    build: .
+    container_name: aviationtools.de
+    restart: unless-stopped
+    ports:
+      - "8080:80"

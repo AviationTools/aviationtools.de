@@ -1,37 +1,35 @@
-name: Deploy
+name: Docker build & push
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Deploy
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-          WELCOME: "Copying newest version to server"
-          LASTSSH: "Deploying version to server"
-          TARGET_DIR: "/home/${{ secrets.DC_USER }}/aviationtools"
-          DEPLOY_SCRIPT: "/home/${{ secrets.DC_USER }}/publish_aviationtools.sh"
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
-          host: ${{ secrets.DC_HOST }}
-          user: ${{ secrets.DC_USER }}
-          pass: ${{ secrets.DC_PASS }}
-          port: ${{ secrets.DC_PORT }}
-          connect_timeout: 10s
-          first_ssh: |-
-            echo $WELCOME
-            rm -rf $TARGET_DIR
-            mkdir -p $TARGET_DIR
-          scp: |-
-            './*' => $TARGET_DIR
-          last_ssh: |-
-            echo $LASTSSH
-            ls -la $TARGET_DIR
-            $DEPLOY_SCRIPT
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Docker extract metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
