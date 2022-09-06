@@ -14,7 +14,7 @@ function showSnackbar(message, duration) {
 
 likeButtonElement.addEventListener('click', async function () {
     try {
-        const likeResponse = await fetch("/api/likes/", {
+        const likeResponse = await fetch("/api/likes", {
             "method": "POST"
         });
         const likeResponseJson = await likeResponse.json();
@@ -34,7 +34,7 @@ likeButtonElement.addEventListener('click', async function () {
 
 async function updateLikes() {
     try {
-        const likeResponse = await fetch("/api/likes/");
+        const likeResponse = await fetch("/api/likes");
         const likeResponseJson = await likeResponse.json();
 
         likeOutputElement.innerText = likeResponseJson.likes;
