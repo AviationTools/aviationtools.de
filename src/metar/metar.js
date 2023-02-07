@@ -4,6 +4,15 @@ const decodeButtonElement = document.getElementById("decode-button");
 const clearButtonElement = document.getElementById("clear-button");
 const reportOutputElement = document.getElementById("report-output");
 
+
+//Activate Tooltipps by Default
+function enableTooltip() {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+}
+
+
 // load icao from url parameter on initial page load
 function findGetParameter(parameterName) {
     let result = null,
@@ -36,7 +45,7 @@ for (let exampleButtonElement of document.getElementsByClassName("metar-example"
 
 clearButtonElement.addEventListener("click", function () {
    icaoInputElement.value = "";
-   reportOutputElement.value = "";
+   reportOutputElement.innerHTML = "";
 });
 
 // main analysis
@@ -60,6 +69,7 @@ function showSnackbar(message, duration) {
 }
 
 async function fetchMetarAndDecode() {
+    reportOutputElement.innerHTML = "";
     let icao = icaoInputElement.value.split(" ")[0];
 
     if (icao === "") {
@@ -68,6 +78,9 @@ async function fetchMetarAndDecode() {
     }
 
     try {
+        //Debug URL
+        //const metarResponse = await fetch(`http://127.0.0.1:5000/airports/${icao}/metar`);
+        
         const metarResponse = await fetch(`/api/airports/${icao}/metar`);
         const metarResponseJson = await metarResponse.json();
 
@@ -75,8 +88,36 @@ async function fetchMetarAndDecode() {
             reportOutputElement.value = "";
             showSnackbar("Could not get metar for ICAO!", 3000);
         } else {
-            reportOutputElement.value = metarDecode(metarResponseJson.metar);
-            icaoInputElement.value = metarResponseJson.metar;
+            
+            let metarElements = metarDecode(metarResponseJson.metar);
+            let sortedMetar = metarElements.split('\n');
+            let toolElements = [];
+            let i = 0;
+            
+            sortedMetar.forEach(element => {
+                toolElements.push(element.split(':'));
+            });
+
+            console.log(sortedMetar)
+            console.log(toolElements)
+            
+            const metarArray = metarResponseJson.metar.split(' ');
+            metarArray.forEach(value => {
+                reportOutputElement.innerHTML += '<abbr id="tool" data-toggle="tooltip" data-html="true">' + value + '</abbr>' + " " ;
+            });
+
+            reportOutputElement.querySelectorAll("#tool").forEach(element => {
+                //Append Tooltipps as long as Data available !
+                //TODO Delete @ FAA ICAO after "RMK"
+                //TODO Optimise the tooltip Data ":" for "/"
+                if(toolElements.length != i) {
+                    queryString = "<strong>"+ toolElements[i][0] + "</strong><br>" + toolElements[i][1];
+                    element.setAttribute("title", queryString);
+                    i++;
+                }
+            });
+        
+            enableTooltip();
         }
     }
     catch (e) {
@@ -121,7 +162,7 @@ function decodeToken(token) {
             result += " True direction = " + myArray[1] + " degrees";
         }
 
-        result += ", Speed: " + parseInt(myArray[2], 10);
+        result += ", Speed " + parseInt(myArray[2], 10);
 
         if (units === "KT") result += " knots";
         else if (units === "KMH") result += " km/h";
@@ -148,7 +189,7 @@ function decodeToken(token) {
     if (regexVariableWind.test(token)) {
         // Variable wind direction: aaaVbbb, aaa and bbb are directions in clockwise order
 
-        return result + "Wind direction is letiable between " + token.substr(0, 3) + " and " + token.substr(4, 3) + "\n";
+        return result + "Wind: direction is variable between " + token.substr(0, 3) + " and " + token.substr(4, 3) + "\n";
     }
 
     // Check if token is visibility
@@ -264,12 +305,22 @@ function decodeToken(token) {
 
     // Check if token is CAVOK
     if (token === "CAVOK") {
-        return result + "CAVOK conditions: Visibility 10 km or more,\n    no cloud below 5.000 feet or below the MSA (whichever is greater), \n    no cumulonimbus, and no significant weather fenomena in\n    the aerodrome or its vicinity\n";
+        return result + "CAVOK conditions: Visibility 10 km or more, no cloud below 5.000 feet or below the MSA (whichever is greater), no cumulonimbus, and no significant weather fenomena in the aerodrome or its vicinity\n";
     }
 
     // Check if token is NOSIG
     if (token === "NOSIG") {
         return result + "No significant changes expected in the near future\n";
+    }
+
+    // Check if token is NCD
+    if (token === "NCD") {
+        return result + "No Clouds\n";
+    }
+
+    // Check if token is CLR
+    if (token === "CLR") {
+        return result + "No Clouds under 12.000ft\n";
     }
 
     // Check if token is a present weather code - The regular expression is a bit
@@ -365,16 +416,16 @@ function decodeToken(token) {
         let myArray = regexTempDew.exec(token);
 
         if (myArray[1].charAt(0) === 'M') {
-            result += "Temperature: -" + myArray[1].substr(1, 2) + " degrees Celsius\n";
+            result += "Temperature: -" + myArray[1].substr(1, 2) + " degrees Celsius ";
         } else {
-            result += "Temperature: " + myArray[1].substr(0, 2) + " degrees Celsius\n";
+            result += "Temperature: " + myArray[1].substr(0, 2) + " degrees Celsius ";
         }
 
         if (myArray[2] !== "") {
             if (myArray[2].charAt(0) === 'M') {
-                result += "Dewpoint: -" + myArray[2].substr(1, 2) + " degrees Celsius\n";
+                result += "Dewpoint -" + myArray[2].substr(1, 2) + " degrees Celsius\n";
             } else {
-                result += "Dewpoint: " + myArray[2].substr(0, 2) + " degrees Celsius\n";
+                result += "Dewpoint " + myArray[2].substr(0, 2) + " degrees Celsius\n";
             }
         }
 
@@ -656,8 +707,8 @@ function metarDecode(text) {
         isNumericDigit(arrayOfTokens[numToken].charAt(4)) &&
         isNumericDigit(arrayOfTokens[numToken].charAt(5))) {
 
-        result += "Day of month: " + arrayOfTokens[numToken].substr(0, 2) + "\n";
-        result += "Time: " + arrayOfTokens[numToken].substr(2, 2) + ":" + arrayOfTokens[numToken].substr(4, 2) + " UTC";
+        result += "Day of month: " + arrayOfTokens[numToken].substr(0, 2) + " ";
+        result += "Time " + arrayOfTokens[numToken].substr(2, 2) + ":" + arrayOfTokens[numToken].substr(4, 2) + " UTC";
 
         if (arrayOfTokens[numToken].length === 6) {
             result += " (Time specification is non-compliant!)";

@@ -71,7 +71,6 @@
                         } ?>">
                         <a class="nav-link" href="/notams/">
                             <i class="fas fa-newspaper"></i>&nbsp;Notams
-                            <small class="badge badge-warning">New</small>
                         </a>
                     </li>
                     <li class="nav-item <?php
@@ -80,34 +79,31 @@
                         } ?>">
                         <a class="nav-link" href="/runways/">
                             <i class="fas fa-plane-departure"></i>&nbsp;Runways
+                            <small class="badge badge-warning">Update</small>
                         </a>
                     </li>
                     <li class="nav-item <?php
-                        if ($page == 'trainer') {
+                        if ($page == 'metar') {
                             echo 'active';
                         } ?>">
-                        <a class="nav-link" href="/trainer/">
-                            <i class="fas fa-calculator"></i>&nbsp;Pilot Trainer
-                        </a>
-                    </li>
-                    <li class="nav-item <?php
-                        if ($page == 'game') {
-                            echo 'active';
-                        } ?>">
-                        <a class="nav-link" href="/game/">
-                            <i class="fas fa-gamepad"></i>&nbsp;Pilot Test
+                        <a class="nav-link" href="/metar/">
+                            <i class="fas fa-cloud"></i>&nbsp;Metar
+                            <small class="badge badge-warning">Update</small>
                         </a>
                     </li>
                     <li class="nav-item dropdown <?php
-                        if ($page == 'notams' || $page == 'metar') {
+                        if ($page == 'trainer' || $page == 'game') {
                             echo 'active';
                         } ?>">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-list-alt"></i>&nbsp;Decoder
+                            <i class="fas fa-list-alt"></i>&nbsp;Games
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/metar/">
-                                <i class="fas fa-cloud"></i>&nbsp;METAR Decoder
+                            <a class="dropdown-item" href="/trainer/">
+                                <i class="fas fa-calculator"></i>&nbsp;Pilot Trainer
+                            </a>
+                            <a class="dropdown-item" href="/game/">
+                                <i class="fas fa-gamepad"></i>&nbsp;Pilot Test
                             </a>
                         </div>
                     </li>

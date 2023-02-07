@@ -4,6 +4,8 @@
     include '../assets/layout/header.php'; ?>
 
 <script defer src="/metar/metar.js"></script>
+<script defer src="/assets/parser/metar-parser.js"></script>
+<script defer src="/assets/parser/convert.js"></script>
 
 <div class="row">
     <div class="col-md-7">
@@ -12,6 +14,8 @@
 
         <div class="py-3">
             <div class="form-group">
+
+            <!-- HTML to write -->
                 <label for="icao">Encoded METAR</label>
                 <input type="text" id="icao" placeholder="Aerodrome ICAO" class="form-control" autocomplete="off">
             </div>
@@ -19,18 +23,11 @@
             <div class="form-group">
                 <button class="btn btn-primary" id="decode-button">Decode</button>
                 <button class="btn btn-secondary" id="clear-button">Clear</button>
-
-                <div class="btn-group">
-                    <button class="btn btn-info metar-example" data-metar="LEZL 150800Z VRB03KT 0700SW 6000E PRFG OVC009 13/13 Q1022 NOSIG">Example 1</button>
-                    <button class="btn btn-info metar-example" data-metar="LEBB 160930Z 03008KT 3000 TSGRRA SCT015TCU BKN022CB 09/06 Q0993 NOSIG">Example 2</button>
-                    <button class="btn btn-info metar-example" data-metar="EGXX 301220Z 14005KT 0450E R12/1000N DZ BCFG VV/// 08/07 Q1004 NOSIG">Example 3</button>
-                    <button class="btn btn-info metar-example" data-metar="LEST 201230Z 21010G25KT 180V250 1200SW 6000NW R17/1300U R35/P1500 +SHRA FEW010CB SCT017 BKN027 12/07 Q1002 RETS WS RWY17 BECMG FM1300 23030G40KT 7000 NSW SKC">Example 4</button>
-                </div>
             </div>
 
             <div class="form-group">
-                <label for="report-output">Decoded report</label>
-                <textarea class="form-control" id="report-output" rows="15"></textarea>
+                <label for="report-output">Metar report</label>
+                <div id="report-output"></div>
             </div>
         </div>
     </div>

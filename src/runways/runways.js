@@ -1,14 +1,33 @@
+//Leaflet Map
+var map = new L.map('map', {zoomControl: false, attributionControl: false });
+//map.dragging.disable();
+//map.scrollWheelZoom.disable();
+//map.boxZoom.disable();
+map.touchZoom.disable();
+map.doubleClickZoom.disable();
+map.keyboard.disable();
+
+//Global Variables
+let latlon = [];
+let closedRunway = [];
+let badgeType = "badge-primary";
+
 // Elements
 const timeOutputElement = document.getElementById('time');
 
 const analyseButtonElement = document.getElementById("alex");
 const icaoInputElement = document.getElementById("icao");
 const icaoHistoryOutputElement = document.getElementById("lasticao");
+const notamCardElement = document.getElementById("notamCard");
 const tableElement = document.getElementById("out")
 const runwayOutputElement = document.getElementById("output");
 
 const sendMetarButtonElement = document.getElementById("sendMetar");
-const compassRoseOutputElement = document.getElementById("compassrose");
+const metarTextElement = document.getElementById("metarText");
+const weatherTypeElement = document.getElementById("weatherType");
+
+const svgWindDirectionElement = document.getElementById("svgWindDirection"); 
+const windInformationElement = document.getElementById("windInformation"); 
 
 // Refresh button
 const refreshButtonElement = document.getElementById("refreshBtn");
@@ -50,27 +69,17 @@ setInterval(updateTimeOutput, 1000);
 // circle svg
 function circle(metarHeading, heading, size) {
     let circleConfig = {};
-    if (size === 1) {
-        // big
-        circleConfig.height = 300;
-        circleConfig.width = 300;
-        circleConfig.radius = circleConfig.width / 2.6;
-        circleConfig.center = {
-            x: circleConfig.width / 2,
-            y: circleConfig.height / 2
-        };
-        circleConfig.margin = 0;
-    } else {
-        // small
-        circleConfig.height = 150;
-        circleConfig.width = 150;
-        circleConfig.radius = circleConfig.width / 3.5;
-        circleConfig.center = {
-            x: circleConfig.width / 2,
-            y: circleConfig.height / 2
-        };
-        circleConfig.margin = -5;
-    }
+   
+    // small
+    circleConfig.height = 150;
+    circleConfig.width = 150;
+    circleConfig.radius = circleConfig.width / 3.5;
+    circleConfig.center = {
+        x: circleConfig.width / 2,
+        y: circleConfig.height / 2
+    };
+    circleConfig.margin = -5;
+    
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.classList.add("circle");
@@ -116,7 +125,6 @@ async function main() {
     clearElements();
 
     const icao = icaoInputElement.value;
-    // icaoInputElement.value = ""; // TODO: Why?
 
     loadingSpinner(false);
 
@@ -128,7 +136,8 @@ async function main() {
         showSnackbar("ICAO is to short!", 3000);
         return;
     }
-
+    //Debug URL
+    //const runwaysResponse = await fetch(`http://127.0.0.1:5000/airports/${icao}/runways`);
     const runwaysResponse = await fetch(`/api/airports/${icao}/runways`);
 
     await updateRunwayHistory();
@@ -144,11 +153,30 @@ async function main() {
         const weather = runwaysResponseJson.weather;
 
         for (let i = 0; i < runwaysResponseJson.runways.length; i++) {
+
             const currentRunway = runwaysResponseJson.runways[i];
+            
+            //Check if Runway Closed
+            if (currentRunway.closed == 1) {
+                closedRunway.push(currentRunway.name);
+                notamCardElement.innerText += currentRunway.name + " Closed!";
+            }
+            if (runwaysResponseJson.runways.length == i+1 && closedRunway.length == 0) {
+                notamCardElement.innerText = "No Runway Closed!";
+            }
+
+            //Append Coordinates for Map
+            if(currentRunway.runwayCoordinates != null) {
+                let polyline = L.polyline(currentRunway.runwayCoordinates, {color: 'black'});
+                latlon.push(currentRunway.runwayCoordinates);
+                polyline.addTo(map);
+                createMap(currentRunway.runwayCoordinates[0], currentRunway.runwayNames[0]);
+                createMap(currentRunway.runwayCoordinates[1], currentRunway.runwayNames[1]);
+            }
 
             let tr = document.createElement("tr");
             tr.classList.add("tr-data");
-            tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_m + "</td><td class='align-middle'>" + currentRunway.notes + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>TODO: Notam info</td>";
+            tr.innerHTML += "<th class='align-middle'>" + currentRunway.name + "</th><td class='align-middle'>" + currentRunway.length_ft + "</td><td class='align-middle'>" + currentRunway.surface + "</td><td class='align-middle'>" + currentRunway.croswind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.headwind_kt + "KT" + "</td>" + "<td class='align-middle'>" + currentRunway.ifr + "</td>" + "<td class='align-middle'>" + currentRunway.lighted+ "</td>";
 
             if (i === 0) {
                 tr.classList.add("text-success");
@@ -157,16 +185,17 @@ async function main() {
             let td = document.createElement("td");
             td.classList.add("compass");
             td.appendChild(circle(weather.wind_dir_degrees, currentRunway.heading));
+            
+            //Metar & Type
+            setWeatherType(weather);
+            setWindInformation(weather);
 
             tr.appendChild(td);
             runwayOutputElement.appendChild(tr);
         }
 
-        let metarHeading = runwaysResponseJson.weather.wind_dir_degrees
-        let rwy1 = runwaysResponseJson.runways[0].heading;
+        centerMap();
 
-        let svg = circle(metarHeading, rwy1, 1);
-        compassRoseOutputElement.appendChild(svg);
     } else {
         showSnackbar("Could not load runway information for ICAO", 3000);
 
@@ -195,11 +224,10 @@ sendMetarButtonElement.addEventListener("click", function () {
 });
 
 function clearElements() {
+    latlon = [];
+    weatherTypeElement.classList.remove(badgeType);
     while (runwayOutputElement.childElementCount > 0) {
         runwayOutputElement.childNodes[0].remove();
-    }
-    while (compassRoseOutputElement.childElementCount > 0) {
-        compassRoseOutputElement.childNodes[0].remove();
     }
 }
 
@@ -221,3 +249,54 @@ function loadingSpinner(ready) {
         analyseButtonElement.appendChild(span);
     }
 }
+
+function centerMap() {
+    center = L.polyline(latlon, {color: 'black'});
+    map.fitBounds(center.getBounds());
+}
+
+function createMap(coordinates, rwy) {
+    L.tooltip({
+        permanent: true,
+        opacity: 0.50,
+    })
+        .setLatLng(coordinates)
+        .setContent(rwy)
+        .addTo(map);
+}
+
+function setWeatherType(weather) {
+    metarTextElement.innerText = weather.metar;
+    weatherTypeElement.innerText = weather.flight_category;
+    if (weather.flight_category == "MVFR") {
+        badgeType = "badge-primary";
+        weatherTypeElement.classList.add("badge-primary");
+    } else if (weather.flight_category == "IFR") {
+        badgeType = "badge-danger";
+        weatherTypeElement.classList.add("badge-danger");
+    } else if (weather.flight_category == "LIFR") {
+        badgeType = "badge-warning";
+        weatherTypeElement.classList.add("badge-warning");
+    } else if (weather.flight_category == "VFR") {
+        badgeType = "badge-success";
+        weatherTypeElement.classList.add("badge-success");
+    } else {
+        console.log(weather.flight_category);
+    }
+    
+}
+
+function setWindInformation(weather) {
+    if (!isNaN(weather.wind_dir_degrees) || !isNaN(weather.wind_speed_kt) ) {
+        svgWindDirectionElement.setAttribute("transform", "rotate("+ weather.wind_dir_degrees +")");
+        windInformationElement.innerText = weather.wind_dir_degrees + "/" + weather.wind_speed_kt;
+    } else {
+        svgWindDirectionElement.setAttribute("transform", "rotate("+ 360 +")");
+        windInformationElement.innerText = "Check Metar!";
+    }
+}
+
+//Disable Tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
