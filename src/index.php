@@ -13,8 +13,8 @@
 
         <ul class="list-inline">
             <li class="list-inline-item py-2">
-                <a class="btn btn-primary" href="/atc/">
-                    <i class="fas fa-broadcast-tower"></i>&nbsp;ATC Communications
+                <a class="btn btn-primary" href="/notams/">
+                    <i class="fas fa-newspaper"></i>&nbsp;Notams
                 </a>
             </li>
 
@@ -55,17 +55,15 @@
     <div class="container-fluid mb-2">
         <div class="card-deck">
             <div class="card mb-3 bg-success text-white" id="likebox">
-                <div class="card-body pt-5 text-center">
-                    <h5 class="card-title mt-3">Like This Website?</h5>
-
-                    <div class="input-group input-group-lg w-50 mx-auto">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-light" id="likebutton"><i class="fa fa-thumbs-up"></i>
-                            </button>
-                        </div>
-
-                        <p class="form-control text-center" id="likes"></p>
-                    </div>
+                <div class="card-body text-center">
+                    <h6><i class="fab fa-github text-white"></i></h6>
+                    <a href="https://github.com/AviationTools/aviationtools.de" class="link text-center text-white">Github Project</a>
+                    <hr>
+                    <h6><i class="fas fa-plane text-white"></i></h6>
+                    <a href="https://www.flightpilote.fr/threads/landing-assistance-%C3%A0-latterrissage-v0-91.7157/#post-121798" class="link text-center text-white">Landing Software</a>
+                    <hr>
+                    <h6><i class="fab fa-discord text-white"></i></h6>
+                    <a href="https://discord.gg/bd5wfkfn" class="link text-center text-white">Aviation-Tools</a>
                 </div>
             </div>
 
@@ -85,10 +83,10 @@
 
             <div class="card mb-3 text-white bg-info">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Join Aviation-Tools´s Discord Server</h5><br>
-                    <h2 class="card-text"><a class="text-white" href="https://discord.gg/rufp9hw"><u>Aviation-Tools</u></a>
-                    </h2>
-                    <img src="assets/img/radar.png" alt="radar" height="50px" width="50px">
+                    <br>
+                    <br>
+                    <h1><i class="far fa-envelope"></i></h1>
+                    <a class="text-white" href= "mailto:werbungbnc@web.de">Contact Us!</a>
                 </div>
             </div>
 
@@ -96,12 +94,12 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Latest News <small class="badge badge-warning">Update!</small></h5>
                     <p class="card-text"><br>
-                        Thank you for your patience, fellow Aviators.
-                        As of today I can proudly announce our new/old notam decoder back in our catalog!
-                        <a href="https://aviationtools.de/notams">Notam Decoder</a></p>
+                        Hello fellow Aviators.
+                        I now finished my Pilot Commercial Training & will refocus my attention to
+                        aviationtools, stay tuned in!
                 </div>
                 <div class="card-footer text-white text-center">
-                    <u>Posted: Fri, 15 October 2021 22:45:17 GMT</u>
+                    <u>Posted: Sun, 12 January 2023 16:34:58 GMT</u>
                 </div>
             </div>
         </div>

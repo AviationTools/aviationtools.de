@@ -3,6 +3,7 @@ const icaoInputElement = document.getElementById("icao");
 const decodeButtonElement = document.getElementById("decode-button");
 const clearButtonElement = document.getElementById("clear-button");
 const reportOutputElement = document.getElementById("report-output");
+const metarTableElement = document.getElementById("metarTable");
 
 
 //Activate Tooltipps by Default
@@ -34,18 +35,12 @@ if (location.search) {
     }
 }
 
-// initialize metar examples
-for (let exampleButtonElement of document.getElementsByClassName("metar-example")) {
-    exampleButtonElement.addEventListener("click", () => {
-        icaoInputElement.value = exampleButtonElement.dataset["metar"];
-
-        reportOutputElement.value = metarDecode(exampleButtonElement.dataset["metar"]);
-    });
-}
-
 clearButtonElement.addEventListener("click", function () {
    icaoInputElement.value = "";
    reportOutputElement.innerHTML = "";
+   metarTableElement.innerHTML = "";
+   tempCount = 0;
+   tableData = "";
 });
 
 // main analysis
@@ -70,6 +65,9 @@ function showSnackbar(message, duration) {
 
 async function fetchMetarAndDecode() {
     reportOutputElement.innerHTML = "";
+    metarTableElement.innerHTML = "";
+    tempCount = 0;
+    tableData = "";
     let icao = icaoInputElement.value.split(" ")[0];
 
     if (icao === "") {
@@ -88,7 +86,7 @@ async function fetchMetarAndDecode() {
             reportOutputElement.value = "";
             showSnackbar("Could not get metar for ICAO!", 3000);
         } else {
-            
+            console.log(metarResponseJson)
             let metarElements = metarDecode(metarResponseJson.metar);
             let sortedMetar = metarElements.split('\n');
             let toolElements = [];
@@ -97,9 +95,6 @@ async function fetchMetarAndDecode() {
             sortedMetar.forEach(element => {
                 toolElements.push(element.split(':'));
             });
-
-            console.log(sortedMetar)
-            console.log(toolElements)
             
             const metarArray = metarResponseJson.metar.split(' ');
             metarArray.forEach(value => {
@@ -113,6 +108,7 @@ async function fetchMetarAndDecode() {
                 if(toolElements.length != i) {
                     queryString = "<strong>"+ toolElements[i][0] + "</strong><br>" + toolElements[i][1];
                     element.setAttribute("title", queryString);
+                    createMetarTable(toolElements[i][0], toolElements[i][1], metarResponseJson)
                     i++;
                 }
             });
@@ -125,6 +121,33 @@ async function fetchMetarAndDecode() {
         console.error("error while fetching metar", e);
         showSnackbar("Could not get metar for ICAO!", 3000);
     }
+}
+
+let tempCount = 0;
+let tableData = "";
+function createMetarTable(header, value, metarResponseJson) {
+    
+    if (value == undefined) {
+        tableData += "<th colspan='2'>" + header + "</th>";
+    } 
+    else if (header == "Day of month") {
+        const d = new Date(metarResponseJson.observation_time);
+        let text = d.toString();
+        tableData += "<th>" + "Observation: " + "</th>";
+        tableData += "<td>" + text + "</td>";
+    } 
+    else {
+        tableData += "<th>" + header + "</th>";
+        tableData += "<td>" + value + "</td>";
+    }
+    tempCount++;
+
+    if (tempCount == 2) {
+        metarTableElement.innerHTML += "<tr>" + tableData + "</tr>";
+        tempCount = 0;
+        tableData = "";
+    }
+
 }
 
 function isNumericDigit(ch) {

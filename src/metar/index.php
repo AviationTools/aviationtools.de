@@ -4,8 +4,6 @@
     include '../assets/layout/header.php'; ?>
 
 <script defer src="/metar/metar.js"></script>
-<script defer src="/assets/parser/metar-parser.js"></script>
-<script defer src="/assets/parser/convert.js"></script>
 
 <div class="row">
     <div class="col-md-7">
@@ -29,6 +27,11 @@
                 <label for="report-output">Metar report</label>
                 <div id="report-output"></div>
             </div>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <tbody id="metarTable"></tbody>
+            </table>
         </div>
     </div>
 
